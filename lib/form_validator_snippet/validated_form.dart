@@ -1,22 +1,22 @@
 //--- An abstract class to handle state (clean/dirty) and validation
 //--- InputsSign<T, E>  use generic type that wiil be determined on the extended class
 
-abstract class InputsSign<T, E> {
+abstract class ValidatedForm<T, E> {
   final T value;
   final bool isPure;
   //property for know error of input
   final E? _error;
 
-  const InputsSign._({
+  const ValidatedForm._({
     required this.value,
     this.isPure = true,
     E? error,
   }) : _error = error;
 
   ///---- Constructors for handle state clean and dirty  
-  const InputsSign.pure(T value, E? error)
+  const ValidatedForm.pure(T value, E? error)
       : this._(value: value, isPure: true, error: error);
-  const InputsSign.dirty(T value, E? error)
+  const ValidatedForm.dirty(T value, E? error)
       : this._(value: value, isPure: false, error: error);
 
   ///---- Handle the validation logic. This method can be used directly for unit testing,

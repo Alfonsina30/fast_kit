@@ -58,7 +58,7 @@ abstract class ValidatedForm<T, E> {
 
 ```
 
-1. **Crea una clase para cada campo y sobreescribe los mètodos** validator  **y** displayError.
+2. **Crea una clase para cada campo y sobreescribe los mètodos** validator  **y** displayError.
 
  Por cada campo de formulario que necesites, creas una nueva clase que extienda InputsSign. Por ejemplo:
 
@@ -134,7 +134,7 @@ class Email extends ValidatedForm<String, EmailValidationError?> {
 
 ```
 
-1. **Usa las clases en tu lógica de negocio**: En un Cubit, Bloc, o un simplemente StatefulWidget, usas las instancias de estas clases para manejar el estado de tus campos. 
+3. **Usa las clases en tu lógica de negocio**: En un Cubit, Bloc, o un simplemente StatefulWidget, usas las instancias de estas clases para manejar el estado de tus campos. 
 
 # Ejemplo utilizando StatefulWidget
 
@@ -296,7 +296,7 @@ dependencies:
 
 Implementaciòn del ejemplo:
 
-```jsx
+```dart
 
 import 'package:equatable/equatable.dart';
 import 'package:fast_kit/form_validator_snippet/email.dart';
@@ -485,7 +485,3 @@ class SignInScreen extends StatelessWidget {
 
 ```
 
-
-# READ ME 'THEME_TOGGLE'
-
-# READ ME 'FIREBASE_AUTH'

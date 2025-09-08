@@ -1,4 +1,4 @@
-import 'package:fast_kit/form_validator_snippet/inputs_sign.dart';
+import 'package:fast_kit/form_validator_snippet/validated_form.dart';
 
 
 enum EmailValidationError { empty, invalid }
@@ -11,7 +11,7 @@ enum EmailValidationError { empty, invalid }
 /// instance state, making the code clearer and easier to test independently.
 
 /// --- Example of a class using the improved abstract class
-class Email extends InputsSign<String, EmailValidationError> {
+class Email extends ValidatedForm<String, EmailValidationError> {
   const Email.pure()
       : super.pure('', EmailValidationError.empty);
 

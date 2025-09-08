@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fast_kit/form_validator_snippet/email.dart';
+import 'package:fast_kit/form_validator_snippet/validated_form_impl/email.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 ///-- From Cubit or state Management when user write to the new input to Text Field
