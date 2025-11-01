@@ -17,15 +17,16 @@ class MyApp extends StatelessWidget {
       create: (context) => PrefsThemeAppCubit(
         preference: CustomSharedPreference(),
         // get the user preference theme when the app is open.
-        // and change the state of Cubit that will be listened from app screens
+        // and change the CubitState that will be listened from the application pages
       )..getPrefsTheme(),
       child: BlocBuilder<PrefsThemeAppCubit, PrefsThemeAppState>(
         builder: (context, state) {
-          ///-- Use the Cubit State for determine the app theme mode
+          ///-- Use the CubitState for determine the app theme mode
 
           return MaterialApp(
             debugShowCheckedModeBanner: false,
 
+            ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
             theme: ThemeToggle(state: state.prefsTheme).theme(),
             home: MyHomePage(),
@@ -47,6 +48,7 @@ class MyHomePage extends StatelessWidget {
         //! connected with themedata
         title: Text(
           'My App',
+          //! connected with themedata
           style: Theme.of(context).textTheme.titleMedium,
         ),
       ),
@@ -59,17 +61,17 @@ class MyHomePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          /// Call the method of cubit [PrefsThemeAppCubit] for change the cubit state and store in
+          /// Call the method of cubit [PrefsThemeAppCubit] for change the CubitState and store in
           // SharedPreference the app theme mode selected
           //
           context.read<PrefsThemeAppCubit>().changePrefsTheme();
         },
         child: Icon(
-          /// Listen the current state of cubit [PrefsThemeAppCubit] for know that will icon show
+          /// Listen the current CubitState [PrefsThemeAppCubit] to display different icons
           context.watch<PrefsThemeAppCubit>().state.isDarkTheme
               ? Icons.wb_sunny
               : Icons.nightlight_round,
-        color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).iconTheme.color,
         ),
       ),
     );

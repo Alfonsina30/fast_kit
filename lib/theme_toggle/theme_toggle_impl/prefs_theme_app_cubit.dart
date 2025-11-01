@@ -14,7 +14,7 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
     ///-- read the theme selected by user
     final prefs = await preference.readPreferenceTheme();
 
-    ///-- if prefs is null the default theme is dark
+    ///-- if the user has not yet chosen a theme, the default theme is dark
     emit(state.copyWith(prefsTheme: prefs ?? true));
   }
 
@@ -22,7 +22,7 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
     emit(state.copyWith(prefsTheme: !state.prefsTheme));
 
     //-- after change the CubitState save on shared preference the theme mode selected
-    await preference.writePreferenceTheme(state.prefsTheme);
+    await preference.savePreferenceTheme(state.prefsTheme);
   }
 
   Future<void> removePrefsTheme() async {
@@ -33,7 +33,7 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
     emit(state.copyWith(prefsTheme: true));
   }
 }
-
+//***** Cubit state
 class PrefsThemeAppState extends Equatable {
   //
   final bool prefsTheme;

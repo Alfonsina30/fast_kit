@@ -8,7 +8,7 @@ class CustomSharedPreference {
     return sharedPreferences;
   }
 
-  Future<void> writePreferenceTheme(bool value) async {
+  Future<void> savePreferenceTheme(bool value) async {
     final prefs = await _initPreference();
     prefs.setBool('themeApp', value);
   }

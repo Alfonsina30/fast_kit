@@ -32,9 +32,12 @@ class ThemeToggle {
           appBarTheme: AppBarTheme(color: Colors.white),
           textTheme: TextTheme(
             displayLarge: TextStyle(
-                fontSize: 30, fontWeight: FontWeight.bold, color: primaryColor),
+                fontSize: 30, fontWeight: FontWeight.bold, 
+                color: primaryColor),
             titleMedium: TextStyle(
-                color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
+                color: Colors.black, 
+                fontSize: 22, 
+                fontWeight: FontWeight.bold),
           ),
           iconTheme: IconThemeData(color: Colors.black),
           floatingActionButtonTheme:
