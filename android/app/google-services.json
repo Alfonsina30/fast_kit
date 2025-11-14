@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "658158696259",
+    "project_id": "fastflutterdevkit",
+    "storage_bucket": "fastflutterdevkit.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658158696259:android:55acd4f24ba62d2cc761f6",
+        "android_client_info": {
+          "package_name": "com.example.fast_kit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHzYXF8Hi8KLJ-Gp8_SradJQ347mhPB3E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
