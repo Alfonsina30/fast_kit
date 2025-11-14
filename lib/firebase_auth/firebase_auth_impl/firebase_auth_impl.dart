@@ -1,4 +1,4 @@
-import 'package:fast_kit/firebase_auth/firebase_auth_service_impl.dart';
+import 'package:fast_kit/firebase_auth/firebase_auth_service.dart';
 import 'package:fast_kit/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -189,7 +189,7 @@ class _MainAppState extends State<MainApp> {
                         email.isValid &&
                         password.isValid) {
                       //
-                      final user = await FirebaseAuthServiceImpl(
+                      final user = await FirebaseAuthService(
                               firebaseAuth: FirebaseAuth.instance)
                           .createUserWithEmailAndPassword(
                               name: name.text,

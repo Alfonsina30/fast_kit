@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthServiceImpl {
+class FirebaseAuthService {
   //
   final FirebaseAuth firebaseAuth;
 
-  FirebaseAuthServiceImpl({required this.firebaseAuth});
+  FirebaseAuthService({required this.firebaseAuth});
 
   Future<UserCredential> signInWithEmailAndPassword(
       {required String email, required String password}) async {
