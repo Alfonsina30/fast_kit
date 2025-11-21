@@ -18,7 +18,7 @@ Veamos un ejemplo de cómo funciona el flujo:
 
 ### **Cómo lo usarías en tu proyecto?**
 
-1. **Define la clase abstracta**: Copias y pegas la clase InputsSign en un archivo dart (inputs_sign.dart).
+1. **Define la clase abstracta**: Copias y pegas la clase InputsSign en un archivo dart (validate_form.dart).
 
 ```dart
 //--- An abstract class to handle state (clean/dirty) and validation
@@ -139,10 +139,6 @@ class Email extends ValidatedForm<String, EmailValidationError?> {
 # Ejemplo utilizando StatefulWidget
 
 ```dart
-import 'package:fast_kit/form_validator_snippet/email.dart';
-import 'package:fast_kit/form_validator_snippet/my_form_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MainApp());
@@ -169,7 +165,9 @@ class SignInScreen extends StatefulWidget {
 }
 
 class _SignInScreenState extends State<SignInScreen> {
+  //
   Email email = Email.pure();
+  Password password = Password.pure();
 
   @override
   Widget build(BuildContext context) {
@@ -223,243 +221,73 @@ class _SignInScreenState extends State<SignInScreen> {
               ///
               //
 
-              FocusScope(
-                child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                  onChanged: (value) {
-                    // When the user input the new value to the TextFormField,
-                    // need create a new "dirty" instance that validates the value
-                    setState(() {
-                      email = Email.dirty(value: value);
-                    });
-                  },
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    fillColor: Colors.grey.shade900,
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.white),
-                    focusedErrorBorder: borderColor,
-                    errorBorder: borderColor,
-                    focusedBorder: borderColor,
-                    focusColor: color,
-                    enabledBorder: borderColor,
-                    errorText:
-                        //-- listen the new state of input and take its the value of displayError
-                        email.displayError,
-                    errorStyle: TextStyle(fontSize: 15),
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.deepOrange,
-                      size: Theme.of(context).iconTheme.size,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 80),
-              //
-              Center(
-                child: ElevatedButton(
-                  child: Text('SignIn'),
-                  onPressed: () {
-                    // When the user tap button send, need to recheck the value of the input.
-                    setState(() {
-                      email = Email.dirty(value: email.value);
-                    });
-                  },
-                ),
-              ),
-              //
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-```
-
-# Ejemplo utilizando Cubit
-
-Te muestro un ejemplo utilizando Cubit, si quieres utilizar este ejemplo tienes agregar esta dependencia a tu archivo pubspec.yaml
-
-```dart
-
-dependencies:
-  flutter:
-    sdk: flutter
-  flutter_bloc: ^9.0.0
-  equatable: ^2.0.7
-```
-
-Implementaciòn del ejemplo:
-
-```dart
-
-import 'package:equatable/equatable.dart';
-import 'package:fast_kit/form_validator_snippet/email.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-///-- From Cubit or state Management when user write to the new input to Text Field
-///-- call the constructor dirty(value) for create a new instance of the class that extend of abstract class InputsSign<T, E>
-
-class MyFormCubit extends Cubit<FormSignInState> {
-  MyFormCubit() : super(FormSignInState(email: Email.pure()));
-
-  void onEmailChanged(String value) {
-    // When the user input the new value to the TextFormField,
-    // need create a new "dirty" instance that validates the value
-    final email = Email.dirty(value: value);
-    emit(state.copyWith(email: email));
-  }
-
-  void signInButton() {
-    // When the user tap button send, need to recheck the value of the input,
-    // you create a new "dirty" instance that validates the value
-    final email = Email.dirty(value: state.email.value);
-
-    emit(state.copyWith(email: email));
-
-    final isValid = state.email.isValid;
-
-    if (!isValid) return;
-    //--- do request for login
-  }
-}
-
-class FormSignInState extends Equatable {
-  final Email email;
-
-  const FormSignInState({required this.email});
-
-  FormSignInState copyWith({Email? email}) {
-    return FormSignInState(email: email ?? this.email);
-  }
-
-  @override
-  List<Object?> get props => [email];
-
-  @override
-  String toString() {
-    return 'EMAIL: $email';
-  }
-}
-
-
-
-```
-
-Si queremos llamar el Cubit dentro de la Screen SignIn, por ejemplo: 
-
-```dart
-
-import 'package:fast_kit/form_validator_snippet/my_form_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-void main() {
-  runApp(const MainApp());
-}
-
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorSchemeSeed: Colors.deepOrange),
-      home: BlocProvider(
-        create: (context) => MyFormCubit(),
-        child: SignInScreen(),
-      ),
-    );
-  }
-}
-
-class SignInScreen extends StatelessWidget {
-  const SignInScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) { 
-    final color = Colors.grey.shade900;
-
-    final borderColor = OutlineInputBorder(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        borderSide: BorderSide(color: Colors.transparent));
-
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 70,
-              ),
-              //
-              Text('Welcome back ',
-                  style: TextStyle(
-                      fontSize: 35,
-                      color: Colors.deepOrange,
-                      fontWeight: FontWeight.bold)),
-              SizedBox(
-                height: 10,
-              ),
-              Text('It\'s good to have you here again',
-                  style: TextStyle(fontSize: 17, color: Colors.white)),
-              //
-
-              SizedBox(
-                height: 100,
-              ),
-
-              Center(
-                  child: Text(
-                'SignIn',
-                style: TextStyle(
-                    fontSize: 29,
-                    color: Colors.deepOrange,
-                    fontWeight: FontWeight.bold),
-              )),
-              const SizedBox(
-                height: 20,
-              ),
-
-              ///
-              //
-
-              FocusScope(
-                child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) {
                   // When the user input the new value to the TextFormField,
                   // need create a new "dirty" instance that validates the value
-                  onChanged: context.read<MyFormCubit>().onEmailChanged,
-                  style: TextStyle(color: Colors.white),
-                  decoration: InputDecoration(
-                    hintText: 'Email',
-                    fillColor: Colors.grey.shade900,
-                    filled: true,
-                    hintStyle: TextStyle(color: Colors.white),
-                    focusedErrorBorder: borderColor,
-                    errorBorder: borderColor,
-                    focusedBorder: borderColor,
-                    focusColor: color,
-                    enabledBorder: borderColor,
-                    errorText:
-                      // listen the new state of input and take its the value of displayError
-                        context.watch<MyFormCubit>().state.email.displayError,
-                    errorStyle: TextStyle(fontSize: 15),
-                    prefixIcon: Icon(
-                      Icons.email,
-                      color: Colors.deepOrange,
-                      size: Theme.of(context).iconTheme.size,
-                    ),
+                  setState(() {
+                    email = Email.dirty(value: value);
+                  });
+                },
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                  fillColor: color,
+                  filled: true,
+                  hintStyle: TextStyle(color: Colors.white),
+                  focusedErrorBorder: borderColor,
+                  errorBorder: borderColor,
+                  focusedBorder: borderColor,
+                  focusColor: color,
+                  enabledBorder: borderColor,
+                  errorText:
+                      //-- listen the new state of input and take its the value of displayError
+                      email.displayError,
+                  errorStyle: TextStyle(fontSize: 15),
+                  prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.deepOrange,
+                    size: Theme.of(context).iconTheme.size,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              ///
+              //
+
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                onChanged: (value) {
+                  // When the user input the new value to the TextFormField,
+                  // need create a new "dirty" instance that validates the value
+                  setState(() {
+                    password = Password.dirty(value: value);
+                  });
+                },
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                  fillColor: color,
+                  filled: true,
+                  hintStyle: TextStyle(color: Colors.white),
+                  focusedErrorBorder: borderColor,
+                  errorBorder: borderColor,
+                  focusedBorder: borderColor,
+                  focusColor: color,
+                  enabledBorder: borderColor,
+                  errorText:
+                      //-- listen the new state of input and take its the value of displayError
+                      password.displayError,
+                  errorStyle: TextStyle(fontSize: 15),
+                  prefixIcon: Icon(
+                    Icons.password,
+                    color: Colors.deepOrange,
+                    size: Theme.of(context).iconTheme.size,
                   ),
                 ),
               ),
@@ -467,11 +295,25 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 80),
               //
               Center(
-                child: ElevatedButton(
-                  child: Text('SignIn'),
-                  
-                    // When the user tap button send, need to recheck the value of the input.
-                  onPressed: () => context.read<MyFormCubit>().signInButton(),
+                child: SizedBox(
+                  width: 300,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.white),
+                        foregroundColor: WidgetStatePropertyAll(Colors.black),
+                        textStyle: WidgetStatePropertyAll(TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold))),
+                    onPressed: () {
+                      // When the user tap button send, need to recheck the value of the input.
+                      setState(() {
+                        email = Email.dirty(value: email.value);
+                        password = Password.dirty(value: password.value);
+                      });
+
+                      //--- Navigate----
+                    },
+                    child: Text('SignIn'),
+                  ),
                 ),
               ),
               //
@@ -482,6 +324,4 @@ class SignInScreen extends StatelessWidget {
     );
   }
 }
-
 ```
-

@@ -11,7 +11,7 @@ enum EmailValidationError { empty, invalid }
 /// instance state, making the code clearer and easier to test independently.
 
 /// --- Example of a class using the improved abstract class
-class Email extends ValidatedForm<String, EmailValidationError> {
+class Email extends ValidateForm<String, EmailValidationError> {
   const Email.pure()
       : super.pure('', EmailValidationError.empty);
 
