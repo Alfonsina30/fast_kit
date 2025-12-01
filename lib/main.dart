@@ -1,7 +1,5 @@
-import 'package:fast_kit/form_validator_snippet/validated_form_impl/my_form_cubit.dart';
 import 'package:fast_kit/form_validator_snippet/validated_form_impl/sign_in_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MainApp());
@@ -15,10 +13,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(colorSchemeSeed: Colors.deepOrange),
-      home: BlocProvider(
-        create: (context) => MyFormCubit(),
-        child: SignInScreen(),
-      ),
+      home: SignInScreen(),
     );
   }
 }

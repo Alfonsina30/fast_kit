@@ -34,7 +34,7 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   //
 
-  final name = TextEditingController();
+  final TextEditingController name = TextEditingController();
   Email email = Email.pure();
   Password password = Password.pure();
 

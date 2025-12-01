@@ -1,5 +1,41 @@
 import 'package:flutter/material.dart';
 
+/*
+# fast_kit
+
+# READ ME 'VALIDATED_FORM'
+
+This snippet provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses 
+an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes 
+for use with custom fields like emails, passwords, etc.
+
+Classes that extend InputsSign must implement validation logic specific 
+to their data type (e.g., email, password, username, etc.). This allows you to maintain a consistent structure 
+throughout your code.
+
+Let's look at an example of how the flow works:
+
+1. The user types something into the text field.
+
+2. Your Cubit or Bloc, provider, or simply a variable using setState() receives the new value.
+
+3. You call the constructor named EmailInput.dirty.
+
+4. Inside EmailInput.dirty, a static method (_validate) is called, which executes the validation logic for the value, for example, email.
+
+5. The result of `_validate` (the error or `null`) is passed to the `super.dirty` constructor of the abstract class.
+
+6. The abstract class `ValidateForm` stores this result in the `_error` property.
+
+7. From that point on, every time you access `isValid` or `displayError`, the class simply returns its existing state.
+
+### **How ​​would you use it in your project?**
+
+1. **Define the abstract class**: Copy and paste the `ValidateForm` class into a Dart file (`validate_form.dart`).
+*/
+
+//--- An abstract class to handle state (clean/dirty) and validation
+//--- ValidateForm<T, E>  use generic type that wiil be determined on the extended class
 
 abstract class ValidateForm<T, E> {
   final T value;
@@ -33,8 +69,141 @@ abstract class ValidateForm<T, E> {
   String? get displayError;
 }
 
+/*
 
+2. **Create a class for each field and override the validator and displayError methods.**
 
+For each form field you need, create a new class that extends ValidateForm. For example:
+
+- class Email extends ValidateForm, for email validation.
+
+- class Password extends ValidateForm, for password validation.
+
+- class Username extends ValidateForm, for username validation.
+
+This example shows the implementation for validating the email field.
+
+**Some explanations:**
+
+- **Error status (_error)**: The abstract class has a private property _error that stores the validation result.
+
+- **Constructors**: The dirty constructor requires the error (E? error) as an argument. 
+The class that extends it (EmailInput.dirty) is responsible for calculating the error and passing it.
+
+- **Getter Methods**: The `error` and `isValid` getters simply return the state stored in the `_error` property.
+
+- **Private Method**: `_validate` validates the form input and passes the new value to the `_error` property if an error occurs; otherwise, the value will be `null`.
+*/
+
+enum ValidationError { empty, invalid }
+
+/// The super.dirty of the EmailInput constructor takes two arguments:
+/// the value (value) and the validation result (_validate(value)). The result of the _validate(value)
+/// call (which will be an error or null) is passed to the abstract class, which stores it internally.
+/// Using a static method (_validate) is a common convention to keep validation logic separate from the
+/// instance state, making the code clearer and easier to test independently.
+
+/// --- Example of a class using the improved abstract class
+class Email extends ValidateForm<String, ValidationError?> {
+  const Email.pure() : super.pure('', ValidationError.empty);
+
+  Email.dirty({required String value}) : super.dirty(value, _validate(value));
+
+  /// simple regex for email validation
+  static RegExp emailRegex = RegExp(r'^[a-zA-Z0-9@?_!.-]+$');
+
+  static ValidationError? _validate(value) {
+    if (!emailRegex.hasMatch(value) && value.isNotEmpty) {
+      return ValidationError.invalid;
+    }
+
+    if (value.isEmpty) {
+      return ValidationError.empty;
+    }
+    return null;
+  }
+
+  @override
+  ValidationError? validator(String value) => _validate(value);
+
+  @override
+  String? get displayError {
+    if (isPure || isValid) {
+      return null;
+    }
+
+    switch (error) {
+      case ValidationError.empty:
+        return 'This field cannot be empty.';
+      case ValidationError.invalid:
+        return 'Please enter a valid email address.';
+      default:
+        return null;
+    }
+  }
+
+  @override
+  String toString() {
+    return 'Email: $value';
+  }
+}
+
+/// --- Example of a class using the improved abstract class
+class Password extends ValidateForm<String, ValidationError> {
+  const Password.pure() : super.pure('', ValidationError.empty);
+
+  Password.dirty({required String value})
+      : super.dirty(value, _validate(value));
+
+  /// simple regex for password validation
+  static RegExp passwordRegex = RegExp(
+      r'^(?!^[0-9]*$)(?!^[a-zA-Z!@#$%^&*()_+=<>?]*$)^([a-zA-Z@#$%^&*_+<>?0-9]{6,15})$');
+
+  static ValidationError? _validate(value) {
+    if (!passwordRegex.hasMatch(value) && value.isNotEmpty) {
+      return ValidationError.invalid;
+    }
+
+    if (value.isEmpty) {
+      return ValidationError.empty;
+    }
+    return null;
+  }
+
+  @override
+  ValidationError? validator(String value) => _validate(value);
+
+  @override
+  String? get displayError {
+    if (isPure || isValid) {
+      return null;
+    }
+
+    switch (error) {
+      case ValidationError.empty:
+        return 'This field cannot be empty.';
+      case ValidationError.invalid:
+        return '''Password must contains:
+    6 character (letters, at least one number and special characters)\n  
+    ''';
+      default:
+        return null;
+    }
+  }
+
+  @override
+  String toString() {
+    return 'Password: $value';
+  }
+}
+
+/*
+3. **Use classes in your business logic**: 
+In a Cubit, Bloc, or simply a StatefulWidget, you use instances of these classes to manage the state of your fields.
+
+# Example using a StatefulWidget
+
+*/
 
 void main() {
   runApp(const MainApp());
@@ -220,106 +389,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
-
-enum ValidationError { empty, invalid }
-
-/// The super.dirty of the EmailInput constructor takes two arguments:
-/// the value (value) and the validation result (_validate(value)). The result of the _validate(value)
-/// call (which will be an error or null) is passed to the abstract class, which stores it internally.
-/// Using a static method (_validate) is a common convention to keep validation logic separate from the
-/// instance state, making the code clearer and easier to test independently.
-
-/// --- Example of a class using the improved abstract class
-class Email extends ValidateForm<String, ValidationError?> {
-  const Email.pure() : super.pure('', ValidationError.empty);
-
-  Email.dirty({required String value}) : super.dirty(value, _validate(value));
-
-  /// simple regex for email validation
-  static RegExp emailRegex = RegExp(r'^[a-zA-Z0-9@?_!.-]+$');
-
-  static ValidationError? _validate(value) {
-    if (!emailRegex.hasMatch(value) && value.isNotEmpty) {
-      return ValidationError.invalid;
-    }
-
-    if (value.isEmpty) {
-      return ValidationError.empty;
-    }
-    return null;
-  }
-
-  @override
-  ValidationError? validator(String value) => _validate(value);
-
-  @override
-  String? get displayError {
-    if (isPure || isValid) {
-      return null;
-    }
-
-    switch (error) {
-      case ValidationError.empty:
-        return 'This field cannot be empty.';
-      case ValidationError.invalid:
-        return 'Please enter a valid email address.';
-      default:
-        return null;
-    }
-  }
-
-  @override
-  String toString() {
-    return 'Email: $value';
-  }
-}
-
-/// --- Example of a class using the improved abstract class
-class Password extends ValidateForm<String, ValidationError> {
-  const Password.pure() : super.pure('', ValidationError.empty);
-
-  Password.dirty({required String value})
-      : super.dirty(value, _validate(value));
-
-  /// simple regex for password validation
-  static RegExp passwordRegex = RegExp(
-      r'^(?!^[0-9]*$)(?!^[a-zA-Z!@#$%^&*()_+=<>?]*$)^([a-zA-Z@#$%^&*_+<>?0-9]{6,15})$');
-
-  static ValidationError? _validate(value) {
-    if (!passwordRegex.hasMatch(value) && value.isNotEmpty) {
-      return ValidationError.invalid;
-    }
-
-    if (value.isEmpty) {
-      return ValidationError.empty;
-    }
-    return null;
-  }
-
-  @override
-  ValidationError? validator(String value) => _validate(value);
-
-  @override
-  String? get displayError {
-    if (isPure || isValid) {
-      return null;
-    }
-
-    switch (error) {
-      case ValidationError.empty:
-        return 'This field cannot be empty.';
-      case ValidationError.invalid:
-        return '''Password must contains:
-    6 character (letters, at least one number and special characters)\n  
-    ''';
-      default:
-        return null;
-    }
-  }
-
-  @override
-  String toString() {
-    return 'Password: $value';
-  }
-}
-

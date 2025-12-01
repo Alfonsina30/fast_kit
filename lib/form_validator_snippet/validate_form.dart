@@ -1,5 +1,5 @@
 //--- An abstract class to handle state (clean/dirty) and validation
-//--- InputsSign<T, E>  use generic type that wiil be determined on the extended class
+//--- ValidateForm<T, E>  use generic type that wiil be determined on the extended class
 
 abstract class ValidateForm<T, E> {
   final T value;

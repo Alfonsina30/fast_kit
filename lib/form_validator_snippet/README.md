@@ -1,114 +1,131 @@
+import 'package:flutter/material.dart';
+
+/*
 # fast_kit
 
 # READ ME 'VALIDATED_FORM'
 
-Este snippet proporciona una estructura robusta y reutilizable para la validación de campos de formularios en Dart/Flutter. Utiliza una clase abstracta para manejar el estado (puro/sucio) y la validación, facilitando la creación de clases que extiendan para utilizar en campos personalizados como correos, contraseñas, etc.
+This snippet provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses 
+an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes 
+for use with custom fields like emails, passwords, etc.
 
-Las clases que extienden de InputsSign deben implementar la lógica de validación específica para su tipo de dato (ej. correo, contraseña, nombre de usuario, etc). Esto te permite mantener una estructura consistente en todo tu código.
+Classes that extend InputsSign must implement validation logic specific 
+to their data type (e.g., email, password, username, etc.). This allows you to maintain a consistent structure 
+throughout your code.
 
-Veamos un ejemplo de cómo funciona el flujo:
+Let's look at an example of how the flow works:
 
-1. El usuario escribe algo en el campo de texto.
-2. Tu Cubit o Bloc, provider o simplemente una variable con el setState() recibe el nuevo valor.
-3. Llamas al constructor con nombre EmailInput.dirty.
-4. Dentro de EmailInput.dirty, se llama a un método estático (_validate) que ejecuta la lógica de validación del value, por ejemplo, correo.
-5. El resultado de _validate (el error o null) se pasa al constructor super.dirty de la clase abstracta.
-6. La clase abstracta InputsSign almacena ese resultado en la propiedad _error.
-7. A partir de ese momento, cada vez que accedas a isValid o displayError, la clase simplemente devuelve el estado que ya tiene. 
+1. The user types something into the text field.
 
-### **Cómo lo usarías en tu proyecto?**
+2. Your Cubit or Bloc, provider, or simply a variable using setState() receives the new value.
 
-1. **Define la clase abstracta**: Copias y pegas la clase InputsSign en un archivo dart (validate_form.dart).
+3. You call the constructor named EmailInput.dirty.
+
+4. Inside EmailInput.dirty, a static method (_validate) is called, which executes the validation logic for the value, for example, email.
+
+5. The result of `_validate` (the error or `null`) is passed to the `super.dirty` constructor of the abstract class.
+
+6. The abstract class `ValidateForm` stores this result in the `_error` property.
+
+7. From that point on, every time you access `isValid` or `displayError`, the class simply returns its existing state.
+
+### **How ​​would you use it in your project?**
+
+1. **Define the abstract class**: Copy and paste the `ValidateForm` class into a Dart file (`validate_form.dart`).
+*/
 
 ```dart
 //--- An abstract class to handle state (clean/dirty) and validation
-//--- InputsSign<T, E>  use generic type that wiil be determined on the extended class
+//--- ValidateForm<T, E>  use generic type that wiil be determined on the extended class
 
-abstract class ValidatedForm<T, E> {
+abstract class ValidateForm<T, E> {
   final T value;
   final bool isPure;
   //property for know error of input
   final E? _error;
 
-  const InputsSign._({
+  const ValidateForm._({
     required this.value,
     this.isPure = true,
     E? error,
   }) : _error = error;
 
-  ///---- Constructors for handle state clean and dirty  
-  const InputsSign.pure(T value, E? error)
+  ///---- Constructors for handle state clean and dirty
+  const ValidateForm.pure(T value, E? error)
       : this._(value: value, isPure: true, error: error);
-  const InputsSign.dirty(T value, E? error)
+  const ValidateForm.dirty(T value, E? error)
       : this._(value: value, isPure: false, error: error);
 
   ///---- Handle the validation logic. This method can be used directly for unit testing,
   ///--- to validate an input without needing to instantiate the entire class.
   E? validator(T value);
 
-  /// --- Public getter to get the error  
+  /// --- Public getter to get the error
   E? get error => _error;
 
-  /// --- Public getter to check for validity  
+  /// --- Public getter to check for validity
   bool get isValid => _error == null;
 
-  /// --- Public getter to get a user-friendly error message from the error type E 
+  /// --- Public getter to get a user-friendly error message from the error type E
   String? get displayError;
 }
 
-```
+/*
 
-2. **Crea una clase para cada campo y sobreescribe los mètodos** validator  **y** displayError.
+2. **Create a class for each field and override the validator and displayError methods.**
 
- Por cada campo de formulario que necesites, creas una nueva clase que extienda InputsSign. Por ejemplo:
+For each form field you need, create a new class that extends ValidateForm. For example:
 
-- class Email extends InputsSign, para la validación de correos.
-- class Password extends InputsSign, para la validación de contraseñas.
-- class Username extends  InputsSign, para la validación de nombres de usuario.
+- class Email extends ValidateForm, for email validation.
 
-En este ejemplo te muestro la implementación para validar el campo de email. 
+- class Password extends ValidateForm, for password validation.
 
-**Algunas explicaciones:**
+- class Username extends ValidateForm, for username validation.
 
-- **Estado del error (_error)**: La clase abstracta tiene una propiedad privada _error que almacena el resultado de la validación.
-- **Constructores**: El constructor dirty requiere el error (E? error) como argumento. La clase que lo extienda (EmailInput.dirty) es responsable de calcular el error y pasarlo.
-- **Métodos get**: Los getters error e isValid simplemente devuelven el estado almacenado en la propiedad _error.
-- **Método privado**:  _validate realiza la validación de la entrada del formulario y le pasa el nuevo valor a la propiedad _error en caso de que tenga un error, de lo contrario el valor será null.
+This example shows the implementation for validating the email field.
 
-```dart
-import 'package:fast_kit/form_validator_snippet/validated_form.dart';
+**Some explanations:**
 
-enum EmailValidationError { empty, invalid }
+- **Error status (_error)**: The abstract class has a private property _error that stores the validation result.
 
-/// The super.dirty of the EmailInput constructor takes two arguments: 
-/// the value (value) and the validation result (_validate(value)). The result of the _validate(value) 
-/// call (which will be an error or null) is passed to the abstract class, which stores it internally. 
-/// Using a static method (_validate) is a common convention to keep validation logic separate from the 
+- **Constructors**: The dirty constructor requires the error (E? error) as an argument. 
+The class that extends it (EmailInput.dirty) is responsible for calculating the error and passing it.
+
+- **Getter Methods**: The `error` and `isValid` getters simply return the state stored in the `_error` property.
+
+- **Private Method**: `_validate` validates the form input and passes the new value to the `_error` property if an error occurs; otherwise, the value will be `null`.
+*/
+
+enum ValidationError { empty, invalid }
+
+/// The super.dirty of the EmailInput constructor takes two arguments:
+/// the value (value) and the validation result (_validate(value)). The result of the _validate(value)
+/// call (which will be an error or null) is passed to the abstract class, which stores it internally.
+/// Using a static method (_validate) is a common convention to keep validation logic separate from the
 /// instance state, making the code clearer and easier to test independently.
 
 /// --- Example of a class using the improved abstract class
-class Email extends ValidatedForm<String, EmailValidationError?> {
-  const Email.pure()
-      : super.pure('', EmailValidationError.empty);
+class Email extends ValidateForm<String, ValidationError?> {
+  const Email.pure() : super.pure('', ValidationError.empty);
 
   Email.dirty({required String value}) : super.dirty(value, _validate(value));
 
   /// simple regex for email validation
   static RegExp emailRegex = RegExp(r'^[a-zA-Z0-9@?_!.-]+$');
 
-  static EmailValidationError? _validate(value) {
+  static ValidationError? _validate(value) {
     if (!emailRegex.hasMatch(value) && value.isNotEmpty) {
-      return EmailValidationError.invalid;
+      return ValidationError.invalid;
     }
 
     if (value.isEmpty) {
-      return EmailValidationError.empty;
+      return ValidationError.empty;
     }
     return null;
   }
 
   @override
-  EmailValidationError? validator(String value) => _validate(value);
+  ValidationError? validator(String value) => _validate(value);
 
   @override
   String? get displayError {
@@ -117,9 +134,9 @@ class Email extends ValidatedForm<String, EmailValidationError?> {
     }
 
     switch (error) {
-      case EmailValidationError.empty:
+      case ValidationError.empty:
         return 'This field cannot be empty.';
-      case EmailValidationError.invalid:
+      case ValidationError.invalid:
         return 'Please enter a valid email address.';
       default:
         return null;
@@ -132,13 +149,62 @@ class Email extends ValidatedForm<String, EmailValidationError?> {
   }
 }
 
-```
+/// --- Example of a class using the improved abstract class
+class Password extends ValidateForm<String, ValidationError> {
+  const Password.pure() : super.pure('', ValidationError.empty);
 
-3. **Usa las clases en tu lógica de negocio**: En un Cubit, Bloc, o un simplemente StatefulWidget, usas las instancias de estas clases para manejar el estado de tus campos. 
+  Password.dirty({required String value})
+      : super.dirty(value, _validate(value));
 
-# Ejemplo utilizando StatefulWidget
+  /// simple regex for password validation
+  static RegExp passwordRegex = RegExp(
+      r'^(?!^[0-9]*$)(?!^[a-zA-Z!@#$%^&*()_+=<>?]*$)^([a-zA-Z@#$%^&*_+<>?0-9]{6,15})$');
 
-```dart
+  static ValidationError? _validate(value) {
+    if (!passwordRegex.hasMatch(value) && value.isNotEmpty) {
+      return ValidationError.invalid;
+    }
+
+    if (value.isEmpty) {
+      return ValidationError.empty;
+    }
+    return null;
+  }
+
+  @override
+  ValidationError? validator(String value) => _validate(value);
+
+  @override
+  String? get displayError {
+    if (isPure || isValid) {
+      return null;
+    }
+
+    switch (error) {
+      case ValidationError.empty:
+        return 'This field cannot be empty.';
+      case ValidationError.invalid:
+        return '''Password must contains:
+    6 character (letters, at least one number and special characters)\n  
+    ''';
+      default:
+        return null;
+    }
+  }
+
+  @override
+  String toString() {
+    return 'Password: $value';
+  }
+}
+
+/*
+3. **Use classes in your business logic**: 
+In a Cubit, Bloc, or simply a StatefulWidget, you use instances of these classes to manage the state of your fields.
+
+# Example using a StatefulWidget
+
+*/
 
 void main() {
   runApp(const MainApp());
@@ -324,4 +390,3 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 }
-```

@@ -1,15 +1,16 @@
-Este snippet proporciona una estructura robusta y reutilizable para cambiar el tema de la aplicación. Utiliza una clase para cambiar el aspecto de visual de la aplicación en base al tema oscuro o claro elegido por el usuario. 
+This snippet provides a robust and reusable structure for changing the application's theme. It uses a class to change the application's visual appearance based on the user's chosen light or dark theme.
 
-### Cómo lo usarías en tu proyecto?
+# How would you use it in your project?
 
-1. Define la clase **ThemeToggle** que va a tener toda la configuración del **ThemeData:** Copias y pegas la clase **ThemeToggle** en un archivo dart (theme_toggle.dart) e importas material.dart .
+1. Define the **ThemeToggle** class, which will hold all the **ThemeData** settings: Copy and paste the **ThemeToggle** class into a Dart file (theme_toggle.dart) and import material.dart.
 
-Nota: 💡La clase ThemeToggle solo proporciona la configuración para el tema claro o oscuro para los widgets: scaffoldBackgroundColor, appBarTheme, textTheme(displayLarge,  titleMedium), iconTheme y floatingActionButtonTheme. 
+Note: 💡The ThemeToggle class only provides the light or dark theme settings for the following widgets: scaffoldBackgroundColor, appBarTheme, textTheme(displayLarge, titleMedium), iconTheme, and floatingActionButtonTheme.
 
 ```dart
 import 'package:flutter/material.dart';
 
 class ThemeToggle {
+
   final bool state;
   const ThemeToggle({required this.state});
 
@@ -17,7 +18,7 @@ class ThemeToggle {
 
   ThemeData theme() {
     if (state) {
-//**************************************************THEME DARK****************************************** */
+//**************************************************THEME DARK*********************************** */
 
       return ThemeData.dark().copyWith(
           scaffoldBackgroundColor: Colors.black,
@@ -55,12 +56,11 @@ class ThemeToggle {
 }
 
 ```
+2. Create a **CustomSharedPreference** class to save the user's chosen Theme Mode preference on the device.
 
-1. Crear clase **CustomSharedPreference** para guardar en el dispositivo la preferencia del Theme Mode elegido por el usuario. 
+For this purpose, we will use the SharedPreference plugin to persistently store simple data, in this case, a boolean value.
 
-Para este objetivo usaremos el plugin SharedPreference para almacenar de manera persistente datos simples, en este caso un dato booleano.
-
-Al crear la clase, debes también instalar la dependencia de  SharedPreference  en el archivo pubspec.yaml de tu proyecto 
+When creating the class, you must also install the SharedPreference dependency in your project's pubspec.yaml file.
 
 pubspec.yaml 
 
@@ -68,7 +68,8 @@ pubspec.yaml
 shared_preferences: ^2.5.3
 ```
 
-custom_shared_preference.dart
+
+theme_toggle_impl.dart
 
 ```dart
 import 'package:shared_preferences/shared_preferences.dart';
@@ -99,10 +100,9 @@ class CustomSharedPreference {
   }
 }
 ```
+3. Use the **CustomSharedPreference** class in your business logic: In a Cubit, Bloc, or even a simple StatefulWidget, you use instances of these classes to manage the state of your fields.
 
-1. Usa las clase **CustomSharedPreference** en tu lógica de negocio: En un Cubit, Bloc, o un simplemente StatefulWidget, usas las instancias de estas clases para manejar el estado de tus campos. 
-
-Te muestro un ejemplo utilizando Cubit, si quieres utilizar este ejemplo tienes agregar esta dependencia a tu archivo pubspec.yaml
+Here's an example using Cubit; if you want to use this example, you need to add this dependency to your pubspec.yaml file.
 
 ```dart
 
@@ -113,14 +113,17 @@ dependencies:
   equatable: ^2.0.7
 ```
 
-Implementación del ejemplo:
+# Implementing the example:
 
 ```dart
-import 'package:equatable/equatable.dart';
-import 'package:fast_kit/theme_toggle/theme_toggle_impl/custom_shared_preference.dart';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:equatable/equatable.dart';
 
 class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
+  //
   final CustomSharedPreference preference;
 
   PrefsThemeAppCubit({required this.preference})
@@ -174,17 +177,11 @@ class PrefsThemeAppState extends Equatable {
 }
 
 ```
+4. **Initial Setup in main.dart**
 
-1. **Configuración Inicial en main.dart**
-
-Para que el tema funcione en toda la app, necesitas envolver tu MaterialApp con BlocProvider y usar BlocBuilder para escuchar los cambios de estado.
+For the theme to work throughout the app, you need to wrap your MaterialApp with BlocProvider and use BlocBuilder to listen for state changes.
 
 ```dart
-import 'package:fast_kit/theme_toggle/theme_toggle.dart';
-import 'package:fast_kit/theme_toggle/theme_toggle_impl/custom_shared_preference.dart';
-import 'package:fast_kit/theme_toggle/theme_toggle_impl/prefs_theme_app_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   runApp(MyApp());
@@ -219,9 +216,9 @@ class MyApp extends StatelessWidget {
 
 ```
 
-1. **Widget para Cambiar el Tema de la aplicación** 
+5. **Widget to Change the Application Theme**
 
-Crea un widget que al ser presionado por el usuario active el método changePrefsTheme() de tu Cubit. El widget que utilizaremos para esta acción será el FloatingActionButton. 
+Create a widget that, when pressed by the user, activates the changePrefsTheme() method of your Cubit. The widget we will use for this action is the FloatingActionButton.
 
 ```dart
 class MyHomePage extends StatelessWidget {
