@@ -1,4 +1,4 @@
-import 'package:fast_kit/form_validator_snippet/validated_form_impl/sign_in_screen.dart';
+import 'package:fast_kit/form_validation/validation_form_impl/sign_in_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
