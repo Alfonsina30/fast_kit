@@ -41,6 +41,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   EmailInput email = EmailInput.pure();
   PasswordInput password = PasswordInput.pure();
 
+  bool _isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     //
@@ -77,7 +79,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
               Text(
                 'Create Account',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 23),
               ),
 
               const SizedBox(
@@ -183,31 +185,68 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
               SizedBox(height: 80),
               //
-              Center(
-                child: FilledButton(
-                  child: Text('Register user'),
-                  onPressed: () async {
-                    //
-                    if (name.text.isNotEmpty &&
-                        email.isValid &&
-                        password.isValid) {
-                      //
-                      final user = await FirebaseAuthService(
-                              firebaseAuth: FirebaseAuth.instance)
-                          .createUserWithEmailAndPassword(
-                              name: name.text,
-                              email: email.value,
-                              password: password.value);
 
-                      if (context.mounted && user.user != null) {
-                        Navigator.of(context).push(MaterialPageRoute<void>(
-                            builder: (BuildContext context) =>
-                                const MyHomePage()));
+              if (_isLoading)
+                Padding(
+                    padding: EdgeInsets.all(26),
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CircularProgressIndicator(
+                        color: Colors.deepOrange,
+                      ),
+                    ))
+              else
+                SizedBox(
+                  width: 250,
+                  child: FilledButton(
+                    onPressed: () async {
+                      if (_isLoading) return;
+
+                      late UserCredential user;
+
+                      setState(() => _isLoading = true);
+
+                      try {
+                        //
+                        if (name.text.isNotEmpty &&
+                            email.isValid &&
+                            password.isValid) {
+                          //
+                          user = await FirebaseAuthService(
+                                  firebaseAuth: FirebaseAuth.instance)
+                              .createUserWithEmailAndPassword(
+                                  name: name.text,
+                                  email: email.value,
+                                  password: password.value);
+                        }
+                      } catch (e) {
+                        debugPrint('Error $e');
+
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    'Error del canal nativo: ${e.toString()}')),
+                          );
+                        }
+                      } finally {
+                        //
+            
+                        //
+                        if (context.mounted && user.user != null) {
+                          Navigator.of(context).push(MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const MyHomePage()));
+                        }
                       }
-                    }
-                  },
+                    },
+                    style: ButtonStyle(
+                        foregroundColor: WidgetStatePropertyAll(Colors.black),
+                        backgroundColor: WidgetStatePropertyAll(Colors.white)),
+                    child: Text('Register user'),
+                  ),
                 ),
-              ),
             ]),
           ),
         ),
@@ -227,7 +266,7 @@ class MyHomePage extends StatelessWidget {
         child: Text(
           'Welcome',
           style: TextStyle(
-              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+              color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
     );

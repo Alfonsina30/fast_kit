@@ -13,7 +13,9 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorSchemeSeed: Colors.deepOrange),
+      theme: ThemeData(
+        colorSchemeSeed: Colors.purple.shade500
+      ),
       home: SignInScreen(),
     );
   }
@@ -34,6 +36,8 @@ class _SignInScreenState extends State<SignInScreen> {
   @override
   Widget build(BuildContext context) {
     final color = Colors.grey.shade900;
+    final errorColor = Colors.red;
+    final primaryColor = Colors.purple.shade500;
 
     final borderColor = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -49,13 +53,13 @@ class _SignInScreenState extends State<SignInScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 70,
+                height: 100,
               ),
               //
               Text('Welcome back ',
                   style: TextStyle(
                       fontSize: 35,
-                      color: Colors.deepOrange,
+                      color: primaryColor,
                       fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 10,
@@ -65,19 +69,19 @@ class _SignInScreenState extends State<SignInScreen> {
               //
 
               SizedBox(
-                height: 100,
+                height: 70,
               ),
 
               Center(
                   child: Text(
-                'SignIn',
+                'Sign In',
                 style: TextStyle(
                     fontSize: 29,
-                    color: Colors.deepOrange,
+                    color: primaryColor,
                     fontWeight: FontWeight.bold),
               )),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
 
               ///
@@ -106,10 +110,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   errorText:
                       //-- listen the new state of input and take its the value of displayError
                       email.displayError,
-                  errorStyle: TextStyle(fontSize: 15),
+                  errorStyle: TextStyle(fontSize: 15, color: errorColor),
                   prefixIcon: Icon(
                     Icons.email,
-                    color: Colors.deepOrange,
+                    color:primaryColor,
                     size: Theme.of(context).iconTheme.size,
                   ),
                 ),
@@ -142,19 +146,26 @@ class _SignInScreenState extends State<SignInScreen> {
                   focusedBorder: borderColor,
                   focusColor: color,
                   enabledBorder: borderColor,
-                  errorText:
-                      //-- listen the new state of input and take its the value of displayError
-                      password.displayError,
-                  errorStyle: TextStyle(fontSize: 15),
+                  //errorText:
+                  //-- listen the new state of input and take its the value of displayError
+                  // password.displayError,
+                  errorStyle: TextStyle(fontSize: 13),
+                  error: SizedBox(
+                    height: 40,
+                    child: Text(
+                      password.displayError ?? '',
+                      style: TextStyle(color: errorColor),
+                    ),
+                  ),
                   prefixIcon: Icon(
                     Icons.password,
-                    color: Colors.deepOrange,
+                    color: primaryColor,
                     size: Theme.of(context).iconTheme.size,
                   ),
                 ),
               ),
 
-              SizedBox(height: 80),
+              SizedBox(height: 40),
               //
               Center(
                 child: SizedBox(
@@ -174,7 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
                       //--- Navigate----
                     },
-                    child: Text('SignIn'),
+                    child: Text('Login'),
                   ),
                 ),
               ),

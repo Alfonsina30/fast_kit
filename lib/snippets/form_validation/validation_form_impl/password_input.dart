@@ -38,9 +38,7 @@ class PasswordInput extends ValidateForm<String, ValidationError> {
       case ValidationError.empty:
         return 'This field cannot be empty.';
       case ValidationError.invalid:
-        return '''Password must contains:
-    6 character (letters, at least one number and special characters)\n  
-    ''';
+        return '''Password must contains: 6 character (letters, at least one number or special characters)''';
       default:
         return null;
     }
