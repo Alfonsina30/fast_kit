@@ -1,11 +1,11 @@
-import 'package:fast_kit/firebase_auth/firebase_auth_service.dart';
-import 'package:fast_kit/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import '../../../firebase_options.dart';
+import '../firebase_auth_service.dart';
 import 'validate_form/email_input.dart';
-import 'validate_form/password.dart';
+import 'validate_form/password_input.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,8 +38,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   //
 
   final TextEditingController name = TextEditingController();
-  Email email = Email.pure();
-  Password password = Password.pure();
+  EmailInput email = EmailInput.pure();
+  PasswordInput password = PasswordInput.pure();
 
   @override
   Widget build(BuildContext context) {
@@ -119,7 +119,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         // When the user input the new value to the TextFormField,
                         // need create a new "dirty" instance that validates the value
                         setState(() {
-                          email = Email.dirty(value: value);
+                          email = EmailInput.dirty(value: value);
                         });
                       },
                       style: TextStyle(color: Colors.white),
@@ -152,7 +152,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         // When the user input the new value to the TextFormField,
                         // need create a new "dirty" instance that validates the value
                         setState(() {
-                          password = Password.dirty(value: value);
+                          password = PasswordInput.dirty(value: value);
                         });
                       },
                       style: TextStyle(color: Colors.white),

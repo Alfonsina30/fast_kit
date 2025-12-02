@@ -4,10 +4,10 @@ import '../validate_form.dart';
 import 'utils/validation_error.dart';
 
 /// --- Example of a class using the improved abstract class
-class Password extends ValidateForm<String, ValidationError> {
-  const Password.pure() : super.pure('', ValidationError.empty);
+class PasswordInput extends ValidateForm<String, ValidationError> {
+  const PasswordInput.pure() : super.pure('', ValidationError.empty);
 
-  Password.dirty({required String value})
+  PasswordInput.dirty({required String value})
       : super.dirty(value, _validate(value));
 
   /// simple regex for password validation

@@ -28,8 +28,8 @@ class SignInScreen extends StatefulWidget {
 
 class _SignInScreenState extends State<SignInScreen> {
   //
-  Email email = Email.pure();
-  Password password = Password.pure();
+  EmailInput email = EmailInput.pure();
+  PasswordInput password = PasswordInput.pure();
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   // When the user input the new value to the TextFormField,
                   // need create a new "dirty" instance that validates the value
                   setState(() {
-                    email = Email.dirty(value: value);
+                    email = EmailInput.dirty(value: value);
                   });
                 },
                 style: TextStyle(color: Colors.white),
@@ -128,7 +128,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   // When the user input the new value to the TextFormField,
                   // need create a new "dirty" instance that validates the value
                   setState(() {
-                    password = Password.dirty(value: value);
+                    password = PasswordInput.dirty(value: value);
                   });
                 },
                 style: TextStyle(color: Colors.white),
@@ -168,8 +168,8 @@ class _SignInScreenState extends State<SignInScreen> {
                     onPressed: () {
                       // When the user tap button send, need to recheck the value of the input.
                       setState(() {
-                        email = Email.dirty(value: email.value);
-                        password = Password.dirty(value: password.value);
+                        email = EmailInput.dirty(value: email.value);
+                        password = PasswordInput.dirty(value: password.value);
                       });
 
                       //--- Navigate----

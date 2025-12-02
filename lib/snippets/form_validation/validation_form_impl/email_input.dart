@@ -9,10 +9,10 @@ import 'utils/validation_error.dart';
 /// instance state, making the code clearer and easier to test independently.
 
 /// --- Example of a class using the improved abstract class
-class Email extends ValidateForm<String, ValidationError?> {
-  const Email.pure() : super.pure('', ValidationError.empty);
+class EmailInput extends ValidateForm<String, ValidationError?> {
+  const EmailInput.pure() : super.pure('', ValidationError.empty);
 
-  Email.dirty({required String value}) : super.dirty(value, _validate(value));
+  EmailInput.dirty({required String value}) : super.dirty(value, _validate(value));
 
   /// simple regex for email validation
   static RegExp emailRegex = RegExp(r'^[a-zA-Z0-9@?_!.-]+$');

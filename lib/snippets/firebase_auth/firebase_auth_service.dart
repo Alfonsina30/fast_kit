@@ -74,6 +74,8 @@ class FirebaseAuthService {
   }
 }
 
+
+
 //! HANDLE EXCEPTION
 class HandleExceptionAuthService {
   final String messageError;
