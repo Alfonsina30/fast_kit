@@ -1,4 +1,3 @@
-
 import '../validate_form.dart';
 import 'utils/validation_error.dart';
 
@@ -12,7 +11,8 @@ import 'utils/validation_error.dart';
 class EmailInput extends ValidateForm<String, ValidationError?> {
   const EmailInput.pure() : super.pure('', ValidationError.empty);
 
-  EmailInput.dirty({required String value}) : super.dirty(value, _validate(value));
+  EmailInput.dirty({required String value})
+      : super.dirty(value, _validate(value));
 
   /// simple regex for email validation
   static RegExp emailRegex = RegExp(r'^[a-zA-Z0-9@?_!.-]+$');
@@ -27,9 +27,6 @@ class EmailInput extends ValidateForm<String, ValidationError?> {
     }
     return null;
   }
-
-  @override
-  ValidationError? validator(String value) => _validate(value);
 
   @override
   String? get displayError {

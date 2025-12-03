@@ -228,6 +228,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
+        iconTheme: IconThemeData(
+          color: Colors.white
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -235,7 +238,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
           child: Center(
             child: Column(children: [
               const SizedBox(
-                height: 20,
+                height: 60,
               ),
 
               Center(
@@ -246,7 +249,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           fontWeight: FontWeight.bold))),
 
               const SizedBox(
-                height: 20,
+                height: 30,
               ),
 
               Text(
@@ -404,6 +407,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         }
                       } finally {
                         //
+            
                         //
                         if (context.mounted && user.user != null) {
                           Navigator.of(context).push(MaterialPageRoute<void>(

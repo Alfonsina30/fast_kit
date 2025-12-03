@@ -13,9 +13,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.purple.shade500
-      ),
+      theme: ThemeData(colorSchemeSeed: Colors.purple.shade500),
       home: SignInScreen(),
     );
   }
@@ -45,6 +43,10 @@ class _SignInScreenState extends State<SignInScreen> {
 
     return Scaffold(
       backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: SingleChildScrollView(
@@ -90,8 +92,6 @@ class _SignInScreenState extends State<SignInScreen> {
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
-                  // When the user input the new value to the TextFormField,
-                  // need create a new "dirty" instance that validates the value
                   setState(() {
                     email = EmailInput.dirty(value: value);
                   });
@@ -99,6 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 style: TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   hintText: 'Email',
+                  errorText: email.displayError,
                   fillColor: color,
                   filled: true,
                   hintStyle: TextStyle(color: Colors.white),
@@ -107,13 +108,10 @@ class _SignInScreenState extends State<SignInScreen> {
                   focusedBorder: borderColor,
                   focusColor: color,
                   enabledBorder: borderColor,
-                  errorText:
-                      //-- listen the new state of input and take its the value of displayError
-                      email.displayError,
                   errorStyle: TextStyle(fontSize: 15, color: errorColor),
                   prefixIcon: Icon(
                     Icons.email,
-                    color:primaryColor,
+                    color: primaryColor,
                     size: Theme.of(context).iconTheme.size,
                   ),
                 ),

@@ -21,9 +21,6 @@ abstract class ValidatedForm<T, E> {
   const ValidatedForm.dirty(T value, E? error)
       : this._(value: value, isPure: false, error: error);
 
-  ///---- Handle the validation logic. This method can be used directly for unit testing,
-  ///--- to validate an input without needing to instantiate the entire class.
-  E? validator(T value);
 
   /// --- Public getter to get the error
   E? get error => _error;

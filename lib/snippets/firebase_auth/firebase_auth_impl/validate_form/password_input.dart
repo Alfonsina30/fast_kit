@@ -24,9 +24,6 @@ class PasswordInput extends ValidatedForm<String, ValidationError> {
   }
 
   @override
-  ValidationError? validator(String value) => _validate(value);
-
-  @override
   String? get displayError {
     if (isPure || isValid) {
       return null;

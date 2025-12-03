@@ -42,6 +42,11 @@ dependencies:
 For the theme to work throughout the app, you need to wrap your MaterialApp with BlocProvider and use BlocBuilder to listen for state changes.
 
 ```dart
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../theme_toggle.dart';
+import 'custom_shared_preference.dart';
+import 'prefs_theme_app_cubit.dart';
 
 void main() async {
   runApp(MyApp());
@@ -63,10 +68,11 @@ class MyApp extends StatelessWidget {
           ///-- Use the CubitState for determine the app theme mode
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
             theme: ThemeToggle(state: state.prefsTheme).theme(),
-            home: MyHomePage(),
+            home: ThemeToggleScreen(),
           );
         },
       ),
@@ -81,8 +87,10 @@ class MyApp extends StatelessWidget {
 Create a widget that, when pressed by the user, activates the changePrefsTheme() method of your Cubit. The widget we will use for this action is the FloatingActionButton.
 
 ```dart
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+//
+
+class ThemeToggleScreen extends StatelessWidget {
+  const ThemeToggleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +122,7 @@ class MyHomePage extends StatelessWidget {
           context.watch<PrefsThemeAppCubit>().state.isDarkTheme
               ? Icons.wb_sunny
               : Icons.nightlight_round,
-        color: Theme.of(context).iconTheme.color,
+          color: Theme.of(context).iconTheme.color,
         ),
       ),
     );

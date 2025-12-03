@@ -1,5 +1,3 @@
-
-
 import '../validate_form.dart';
 import 'utils/validation_error.dart';
 
@@ -24,9 +22,6 @@ class PasswordInput extends ValidateForm<String, ValidationError> {
     }
     return null;
   }
-
-  @override
-  ValidationError? validator(String value) => _validate(value);
 
   @override
   String? get displayError {

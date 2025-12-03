@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
             theme: ThemeToggle(state: state.prefsTheme).theme(),
-            home: MyHomePage(),
+            home: ThemeToggleScreen(),
           );
         },
       ),
@@ -36,15 +36,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
-/*
-
-5. **Widget to Change the Application Theme**
-
-Create a widget that, when pressed by the user, activates the changePrefsTheme() method of your Cubit. The widget we will use for this action is the FloatingActionButton.
-*/
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
+class ThemeToggleScreen extends StatelessWidget {
+  const ThemeToggleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
