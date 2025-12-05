@@ -56,9 +56,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        iconTheme: IconThemeData(
-          color: Colors.white
-        ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -171,9 +169,13 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         focusedBorder: borderColor,
                         focusColor: color,
                         enabledBorder: borderColor,
-                        errorText:
-                            //-- listen the new state of input and take its the value of displayError
-                            password.displayError,
+                        error: SizedBox(
+                          height: 40,
+                          child: Text(
+                            password.displayError ?? '',
+                            style: TextStyle(color: Colors.red),
+                          ),
+                        ),
                         errorStyle: TextStyle(fontSize: 15),
                         prefixIcon: Icon(
                           Icons.password,
@@ -206,7 +208,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     onPressed: () async {
                       if (_isLoading) return;
 
-                      late UserCredential user;
+                      UserCredential? user;
 
                       setState(() => _isLoading = true);
 
@@ -235,9 +237,9 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         }
                       } finally {
                         //
-            
+
                         //
-                        if (context.mounted && user.user != null) {
+                        if (context.mounted && user != null) {
                           Navigator.of(context).push(MaterialPageRoute<void>(
                               builder: (BuildContext context) =>
                                   const MyHomePage()));
@@ -264,6 +266,15 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Text(
+          'Firebase Authentication',
+          style: TextStyle(
+              color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+      ),
       backgroundColor: Colors.black,
       body: Center(
         child: Text(

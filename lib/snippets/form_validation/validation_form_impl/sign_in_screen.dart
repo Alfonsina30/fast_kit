@@ -144,9 +144,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   focusedBorder: borderColor,
                   focusColor: color,
                   enabledBorder: borderColor,
-                  //errorText:
                   //-- listen the new state of input and take its the value of displayError
-                  // password.displayError,
                   errorStyle: TextStyle(fontSize: 13),
                   error: SizedBox(
                     height: 40,
