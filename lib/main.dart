@@ -34,7 +34,7 @@ class MainApp extends StatelessWidget {
           ///-- Use the CubitState for determine the app theme mode
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-
+            
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
             theme: ThemeToggle(state: state.prefsTheme).theme(),
