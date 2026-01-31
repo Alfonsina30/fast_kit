@@ -9,9 +9,9 @@ class CustomSharedPreference {
   }
 
 // methods that can be calling from business logic
-  Future<void> savePreferenceTheme(bool value) async {
+  Future<void> savePreferenceTheme(String value) async {
     final prefs = await _initPreference();
-    prefs.setBool('themeApp', value);
+    prefs.setString('themeApp', value);
   }
 
   Future<bool?> readPreferenceTheme() async {

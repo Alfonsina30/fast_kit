@@ -2,7 +2,6 @@ import 'package:fast_kit/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'snippets/firebase_auth/firebase_auth_impl/register_user_screen.dart';
 import 'snippets/form_validation/validation_form_impl/sign_in_screen.dart';
 import 'snippets/theme_toggle/theme_toggle.dart';
@@ -10,8 +9,8 @@ import 'snippets/theme_toggle/theme_toggle_impl/custom_shared_preference.dart';
 import 'snippets/theme_toggle/theme_toggle_impl/prefs_theme_app_cubit.dart';
 import 'snippets/theme_toggle/theme_toggle_impl/theme_toggle_screen.dart';
 
-void main() async{
-    WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -34,10 +33,12 @@ class MainApp extends StatelessWidget {
           ///-- Use the CubitState for determine the app theme mode
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            
+            themeMode: state.prefsTheme,
+            darkTheme: ThemeToggle(isDarkMode: true).theme(),
+
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
-            theme: ThemeToggle(state: state.prefsTheme).theme(),
+            theme: ThemeToggle(isDarkMode: false).theme(),
             home: SnippetsScreen(),
           );
         }));

@@ -9,7 +9,7 @@ This snippet provides a robust and reusable structure for changing the applicati
 
 Copy and paste the **ThemeToggle** class into a Dart file (theme_toggle.dart) and import material.dart.
 
-Note: 💡The ThemeToggle class only provides the light or dark theme settings for the following widgets: scaffoldBackgroundColor, appBarTheme, textTheme(displayLarge, titleMedium), iconTheme, and floatingActionButtonTheme.
+Note: 💡The ThemeToggle class only provides the light or dark theme settings for the following widgets: OutlinedButton.icon, scaffoldBackgroundColor, appBarTheme, textTheme(displayLarge, titleMedium), iconTheme, and floatingActionButtonTheme.
 
 # 2. Create a **CustomSharedPreference** class to save the user's chosen Theme Mode preference on the device.
 
@@ -68,10 +68,13 @@ class MyApp extends StatelessWidget {
           ///-- Use the CubitState for determine the app theme mode
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            themeMode: state.prefsTheme,
+            darkTheme: ThemeToggle(isDarkMode: true).theme(),
 
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
-            theme: ThemeToggle(state: state.prefsTheme).theme(),
+            theme: ThemeToggle(isDarkMode: false).theme(),
+            
             home: ThemeToggleScreen(),
           );
         },
@@ -84,10 +87,11 @@ class MyApp extends StatelessWidget {
 
 5. **Widget to Change the Application Theme**
 
-Create a widget that, when pressed by the user, activates the changePrefsTheme() method of your Cubit. The widget we will use for this action is the FloatingActionButton.
+Create a widget that, when pressed by the user, change the state of Cubit.
 
 ```dart
 //
+
 
 class ThemeToggleScreen extends StatelessWidget {
   const ThemeToggleScreen({super.key});
@@ -104,25 +108,43 @@ class ThemeToggleScreen extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Text(
-          'Theme Toggle!',
-          //! connected with themedata
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          /// Call the method of cubit [PrefsThemeAppCubit] for change the CubitState and store in
-          // SharedPreference the app theme mode selected
-          //
-          context.read<PrefsThemeAppCubit>().changePrefsTheme();
-        },
-        child: Icon(
-          /// Listen the current CubitState [PrefsThemeAppCubit] to display different icons
-          context.watch<PrefsThemeAppCubit>().state.isDarkTheme
-              ? Icons.wb_sunny
-              : Icons.nightlight_round,
-          color: Theme.of(context).iconTheme.color,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Theme Toggle!',
+              //! connected with themedata
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changetoSystemMode();
+              },
+              label: Text('System mode'),
+              icon: Icon(
+                Icons.settings,
+              ),
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changeToDarkMode();
+              },
+              label: Text('Dark mode'),
+              icon: Icon(Icons.nightlight_round),
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changeToLightMode();
+              },
+              label: Text('Light mode'),
+              icon: Icon(Icons.wb_sunny),
+            ),
+          ],
         ),
       ),
     );

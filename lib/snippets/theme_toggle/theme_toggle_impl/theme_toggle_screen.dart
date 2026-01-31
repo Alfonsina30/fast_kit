@@ -20,14 +20,16 @@ class MyApp extends StatelessWidget {
         // and change the CubitState that will be listened from the application pages
       )..getPrefsTheme(),
       child: BlocBuilder<PrefsThemeAppCubit, PrefsThemeAppState>(
-        builder: (context, state) {
+        builder: (context, themeMode) {
           ///-- Use the CubitState for determine the app theme mode
           return MaterialApp(
             debugShowCheckedModeBanner: false,
+            themeMode: themeMode.prefsTheme,
 
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
-            theme: ThemeToggle(state: state.prefsTheme).theme(),
+            darkTheme: ThemeToggle(isDarkMode: true).theme(),
+            theme: ThemeToggle(isDarkMode: false).theme(),
             home: ThemeToggleScreen(),
           );
         },
@@ -51,25 +53,43 @@ class ThemeToggleScreen extends StatelessWidget {
         ),
       ),
       body: Center(
-        child: Text(
-          'Theme Toggle!',
-          //! connected with themedata
-          style: Theme.of(context).textTheme.displayLarge,
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          /// Call the method of cubit [PrefsThemeAppCubit] for change the CubitState and store in
-          // SharedPreference the app theme mode selected
-          //
-          context.read<PrefsThemeAppCubit>().changePrefsTheme();
-        },
-        child: Icon(
-          /// Listen the current CubitState [PrefsThemeAppCubit] to display different icons
-          context.watch<PrefsThemeAppCubit>().state.isDarkTheme
-              ? Icons.wb_sunny
-              : Icons.nightlight_round,
-          color: Theme.of(context).iconTheme.color,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          // mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Theme Toggle!',
+              //! connected with themedata
+              style: Theme.of(context).textTheme.displayLarge,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changetoSystemMode();
+              },
+              label: Text('System mode'),
+              icon: Icon(
+                Icons.settings,
+              ),
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changeToDarkMode();
+              },
+              label: Text('Dark mode'),
+              icon: Icon(Icons.nightlight_round),
+            ),
+            OutlinedButton.icon(
+              onPressed: () {
+                context.read<PrefsThemeAppCubit>().changeToLightMode();
+              },
+              label: Text('Light mode'),
+              icon: Icon(Icons.wb_sunny),
+            ),
+          ],
         ),
       ),
     );
