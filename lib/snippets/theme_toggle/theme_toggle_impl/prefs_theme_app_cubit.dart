@@ -13,7 +13,7 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
 
   void getPrefsTheme() async {
     ///-- read the theme selected by user
-    final prefs = await preference.readPreferenceTheme() as String?;
+    final prefs = await preference.readPreferenceTheme();
 
     final getTheme =
         (prefs != null) ? ThemeMode.values.byName(prefs) : ThemeMode.system;

@@ -25,7 +25,7 @@ shared_preferences: ^2.5.3
 
 # 3. Use the **CustomSharedPreference** class in your business logic: In a Cubit, Bloc, or even a simple StatefulWidget, you use instances of these classes to manage the state of your fields.
 
-Here's an example using Cubit; if you want to use this example, you need to add this dependency to your pubspec.yaml file.
+Here's an example using Cubit, if you want to use this example, Copy and paste the `PrefsThemeAppCubit` class into a Dart file (`prefs_theme_app_cubit.dart`),  also you need to add `flutter_bloc` and `equatable` dependencies to your pubspec.yaml file.
 
 ```pubspec.yaml
 

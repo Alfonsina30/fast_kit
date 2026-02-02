@@ -232,7 +232,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(15.0),
           child: Center(
             child: Column(children: [
               const SizedBox(

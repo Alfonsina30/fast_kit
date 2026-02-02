@@ -74,7 +74,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorSchemeSeed: Colors.purple.shade500),
+      theme: ThemeData(colorSchemeSeed: Colors.blue),
       home: SignInScreen(),
     );
   }
@@ -94,22 +94,23 @@ class _SignInScreenState extends State<SignInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final color = Colors.grey.shade900;
+    final backGroundColor = Colors.white;
+    final colorInputField = Colors.grey.shade100;
     final errorColor = Colors.red;
-    final primaryColor = Colors.purple.shade500;
+    final primaryColor = Colors.blue;
+    final textColor = Colors.black;
 
     final borderColor = OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(10)),
         borderSide: BorderSide(color: Colors.transparent));
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: backGroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: backGroundColor,
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 23),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -121,14 +122,14 @@ class _SignInScreenState extends State<SignInScreen> {
               //
               Text('Welcome back ',
                   style: TextStyle(
-                      fontSize: 35,
-                      color: primaryColor,
+                      fontSize: 25,
+                      color: textColor,
                       fontWeight: FontWeight.bold)),
               SizedBox(
                 height: 10,
               ),
               Text('It\'s good to have you here again',
-                  style: TextStyle(fontSize: 17, color: Colors.white)),
+                  style: TextStyle(fontSize: 17, color: textColor)),
               //
 
               SizedBox(
@@ -139,9 +140,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   child: Text(
                 'Sign In',
                 style: TextStyle(
-                    fontSize: 29,
-                    color: primaryColor,
-                    fontWeight: FontWeight.bold),
+                    fontSize: 17,
+                    color: textColor,
+                    fontWeight: FontWeight.normal),
               )),
               const SizedBox(
                 height: 40,
@@ -157,17 +158,17 @@ class _SignInScreenState extends State<SignInScreen> {
                     email = EmailInput.dirty(value: value);
                   });
                 },
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColor),
                 decoration: InputDecoration(
                   hintText: 'Email',
+                  hintStyle: TextStyle(color: textColor),
                   errorText: email.displayError,
-                  fillColor: color,
+                  fillColor: colorInputField,
                   filled: true,
-                  hintStyle: TextStyle(color: Colors.white),
                   focusedErrorBorder: borderColor,
                   errorBorder: borderColor,
                   focusedBorder: borderColor,
-                  focusColor: color,
+                  focusColor: colorInputField,
                   enabledBorder: borderColor,
                   errorStyle: TextStyle(fontSize: 15, color: errorColor),
                   prefixIcon: Icon(
@@ -194,20 +195,18 @@ class _SignInScreenState extends State<SignInScreen> {
                     password = PasswordInput.dirty(value: value);
                   });
                 },
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: textColor),
                 decoration: InputDecoration(
                   hintText: 'Password',
-                  fillColor: color,
+                  fillColor: colorInputField,
                   filled: true,
-                  hintStyle: TextStyle(color: Colors.white),
+                  hintStyle: TextStyle(color: textColor),
                   focusedErrorBorder: borderColor,
                   errorBorder: borderColor,
                   focusedBorder: borderColor,
-                  focusColor: color,
+                  focusColor: colorInputField,
                   enabledBorder: borderColor,
-                  //errorText:
                   //-- listen the new state of input and take its the value of displayError
-                  // password.displayError,
                   errorStyle: TextStyle(fontSize: 13),
                   error: SizedBox(
                     height: 40,
@@ -231,8 +230,8 @@ class _SignInScreenState extends State<SignInScreen> {
                   width: 300,
                   child: ElevatedButton(
                     style: ButtonStyle(
-                        backgroundColor: WidgetStatePropertyAll(Colors.white),
-                        foregroundColor: WidgetStatePropertyAll(Colors.black),
+                        backgroundColor: WidgetStatePropertyAll(Colors.black),
+                        foregroundColor: WidgetStatePropertyAll(Colors.white),
                         textStyle: WidgetStatePropertyAll(TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold))),
                     onPressed: () {
