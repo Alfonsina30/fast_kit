@@ -1,46 +1,30 @@
-# 🚀 FAST KIT FLUTTER DEV: Snippets Esenciales
+# 🚀 FAST FLUTTER DEV KIT: Essential Snippets
 
-Este kit de *snippets* proporciona soluciones robustas y probadas, listas para integrar en tu proyecto Flutter:
+This snippet kit provides robust, production-ready solutions to integrate directly into your Flutter projects.
 
-### **🎉 Beneficio Clave**
+> **[Leer en Español](README_ES.md)** 🇪🇸
 
-**Ahorra más de 20 horas de trabajo.** Todo el código base está listo y probado, permitiéndote iniciar tu aplicación Flutter en minutos y enfocarte en la lógica de negocio.
+## 🎉 Key Benefit
+**Save 20+ hours of development.** All base code is pre-tested and ready to go, allowing you to launch your Flutter app in minutes and focus on your business logic.
+## 📚 Kit Contents
 
+### 1. Form Validation
+Abstract (InputsSign) and concrete classes to manage state (pure/dirty) and validate any input (e.g., email, password).
+🔗 **[Full Documentation](./snippets/form_validation/README.md)**
 
-### **📚 Contenido del Kit**
+### 2. Firebase Authentication
+A dedicated service class (`FirebaseAuthService`) for rapid implementation of Registration, Login, Logout, and Password Reset.
+🔗 **[Full Documentation](./snippets/firebase_auth/README.md)**
 
+### 3. Theme Management (Dark/Light Mode)
+A `ThemeToggle` class for switching modes and a utility class (`CustomSharedPreference`) for data persistence.
+🔗 **[Full Documentation](./snippets/theme_toggle/README.md)**
 
-**1.Validación de Formularios** 
+## ⚙️ Requirements
+* **Minimum Flutter SDK:** 3.27
+* **Minimum Dart Version:** 3.6.2
 
-Clases abstractas (`InputsSign`) y concretas para manejar el estado (**pure/dirty**) y la validación de cualquier entrada (ej. email, password). 
+## © License and Rights
+*Note: License terms are specified in the LICENSE folder.*
 
-[🔗 Documentación Completa](form_validation/README.md) 
-
-
-**2.Autenticación con Firebase** 
-
-Clase de servicio (`FirebaseAuthService`) para la implementación rápida de Registro, Login, Cierre de Sesión y Reseteo de Contraseña. 
-
-[🔗 Documentación Completa](firebase_auth/README.md) 
-
-
-**3.Manejo de Tema (Theme Mode)** 
-
-Clase (`ThemeToggle`) para cambiar el tema claro/oscuro y clase de utilidad (`CustomSharedPreference`) para la persistencia de la preferencia. 
-
-[🔗 Documentación Completa](theme_toggle/README.md) 
-
----------
-
-### **⚙️ Requisitos**
-
-* **Versión Mínima de Flutter SDK:** `3.27`
-* **Versión Mínima de Dart:** `3.6.2`
-
----------
-
-### **© Licencia y Derechos**
-
-**NOTA:** La información sobre la licencia de uso se especificará en la carpeta de la licencia.
-
-**Copyright (c) 2025 [Alfonsina Beltre]. Todos los derechos reservados.**
+Copyright (c) 2025 Alfonsina Beltre. All rights reserved.
