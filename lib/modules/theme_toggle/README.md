@@ -1,7 +1,7 @@
 
 # THEME TOGGLE
 
-This snippet provides a robust and reusable structure for changing the application's theme. It uses a class to change the application's visual appearance based on the user's chosen light or dark theme.
+This module provides a robust and reusable structure for changing the application's theme. It uses a class to change the application's visual appearance based on the user's chosen light or dark theme.
 
 # How would you use it in your project?
 

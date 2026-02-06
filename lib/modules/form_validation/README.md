@@ -1,9 +1,7 @@
 
 # VALIDATED_FORM
 
-This snippet provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses
-an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes
-for use with custom fields like emails, passwords, etc.
+This module provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes for use with custom fields like emails, passwords, etc.
 
 Classes that extend ValidateForm must implement validation logic specific to their data type (e.g., email, password, username, etc.). This allows you to maintain a consistent structure throughout your code.
 

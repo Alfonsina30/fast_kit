@@ -1,6 +1,6 @@
 # FIREBASE_AUTH_SERVICE
 
-This snippet provides a robust and reusable codice for using Firebase Authentication in your Flutter app, including the implementation for:
+This module provides a robust and reusable codice for using Firebase Authentication in your Flutter app, including the implementation for:
 
 - Registration and Login with email and password.
 
