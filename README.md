@@ -1,4 +1,4 @@
-# 🚀 FAST FLUTTER DEV KIT: Essential Snippets
+# 🚀 FAST FLUTTER DEV KIT
 
 This development kit provides robust, production-ready solutions to integrate directly into your Flutter projects.
 
