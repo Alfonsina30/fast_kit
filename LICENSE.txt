@@ -1,10 +1,15 @@
 LIMITED USE LICENSE (PROPRIETARY SOFTWARE)
 
-This software is the intellectual property of [Alfonsina Beltre]. All rights reserved.
+Licensor / Cedente: Alfonsina Beltre Figueroa
+Tax ID / Codice Fiscale: BLTLNS95A70Z505E
+Address / Indirizzo: Via Pigna, 104, 80128, Napoli (NA), Italy
+
+
+This software is the intellectual property of Alfonsina Beltre Figueroa. All rights reserved.
 
 1. LICENSE GRANT
 
-[Alfonsina Beltre] grants the Buyer a non-exclusive, non-transferable, and perpetual license to use the source code of the "FAST KIT FLUTTER DEV" (the Software) under the following terms:
+Alfonsina Beltre Figueroa grants the Buyer a non-exclusive, non-transferable, and perpetual license to use the source code of the "FAST FLUTTER DEV KIT" (the Software) under the following terms:
 
 a. USE: The Buyer may use the Software in any number of their own projects (personal or commercial).
 
@@ -14,17 +19,17 @@ b. MODIFICATION: The Buyer may modify the Software to suit their needs.
 
 The Buyer may NOT, under any circumstances:
 
-a. SUBLICENSE, SELL, DISTRIBUTE, OR ASSIGN: The Software, modified or unmodified, may not be resold, redistributed, sublicensed, or assigned to third parties as part of a kit or standalone software product. The Software may only be distributed as an integral part of a larger, fully functional application developed by the Buyer.
+a. SUBLICENSE, SELL, DISTRIBUTE, OR ASSIGN: The Software, modified or unmodified, may not be resold, redistributed, sublicensed, or assigned to third parties as part of a kit or standalone software product.  The Software may only be distributed as an integral part of a larger, fully functional application developed by the Buyer.
 
 b. CLAIM OF OWNERSHIP: The Buyer may not claim any intellectual property rights in or to the original or modified Software.
 
 3. COPYRIGHT
 
-The Buyer acknowledges that all intellectual property and copyright rights in the Software remain the exclusive property of [Alfonsina Beltre].
+The Buyer acknowledges that all intellectual property and copyright rights in the Software remain the exclusive property of Alfonsina Beltre Figueroa.
 
 4. DISCLAIMER OF WARRANTY
 
 The Software is provided "AS IS," without warranty of any kind, express or implied, including, but not limited to, warranties of merchantability, fitness for a particular purpose, and non-infringement. The author or copyright holders shall not be liable for any claims, damages, or other liabilities.
 
---- Copyright (c) [2026] [Alfonsina Beltre].
+--- Copyright (c) 2026 Alfonsina Beltre Figueroa.
 All rights reserved.

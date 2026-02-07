@@ -1,10 +1,15 @@
 LICENCIA DE USO LIMITADO (SOFTWARE PROPIETARIO)
 
-Este software es propiedad intelectual de [Alfonsina Beltre]. Todos los derechos reservados.
+Cedente: Alfonsina Beltre Figueroa
+Còdigo Fiscal: BLTLNS95A70Z505E
+Direcciòn: Via Pigna, 104, 80128, Napoli (NA), Italy
+
+
+Este software es propiedad intelectual de Alfonsina Beltre Figueroa. Todos los derechos reservados.
 
 1. CONCESIÓN DE LICENCIA
 
-[Alfonsina Beltre] concede al Comprador una licencia no exclusiva, no transferible y perpetua para utilizar el código fuente del "FAST KIT FLUTTER DEV" (el Software) en los siguientes términos:
+Alfonsina Beltre Figueroa concede al Comprador una licencia no exclusiva, no transferible y perpetua para utilizar el código fuente del "FAST FLUTTER DEV KIT" (el Software) en los siguientes términos:
 
     a. USO: El Comprador puede utilizar el Software en cualquier número de sus propios proyectos (personales o comerciales).
     b. MODIFICACIÓN: El Comprador puede modificar el Software para adaptarlo a sus necesidades.
@@ -18,12 +23,12 @@ El Comprador NO puede, bajo ninguna circunstancia:
 
 3. DERECHOS DE AUTOR
 
-El Comprador reconoce que todos los derechos de propiedad intelectual y de autor sobre el Software siguen siendo propiedad exclusiva de [Alfonsina Beltre].
+El Comprador reconoce que todos los derechos de propiedad intelectual y de autor sobre el Software siguen siendo propiedad exclusiva de Alfonsina Beltre Figueroa.
 
 4. EXCLUSIÓN DE GARANTÍA
 
 El Software se proporciona "TAL CUAL", sin garantía de ningún tipo, expresa o implícita, incluyendo, pero no limitado a, las garantías de comerciabilidad, idoneidad para un propósito particular y no infracción. El autor o los titulares de los derechos de autor no serán responsables de ninguna reclamación, daño u otra responsabilidad.
 
 ---
-Copyright (c) [2025] [Alfonsina Beltre].
+Copyright (c) 2026 Alfonsina Beltre Figueroa.
 Todos los derechos reservados.
