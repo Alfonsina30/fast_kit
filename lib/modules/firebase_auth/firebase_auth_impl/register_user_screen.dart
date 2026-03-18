@@ -52,7 +52,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
         return 'The field is required';
 
       case ErrorInput.invalid:
-        return "Email must be contains letters, \nnumbers and character @ ? _ - ! ? , .";
+        return "Email must contains letters, \nnumbers and character @ ? _ - ! ? , .";
 
       default:
         return null;
@@ -147,7 +147,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                       keyboardType: TextInputType.emailAddress,
                       onChanged: (value) {
                         // When the user input the new value to the TextFormField,
-                        // need create a new "dirty" instance that validates the value
+                        // needs to create a new "dirty" instance that validates the value
                         setState(() {
                           email = EmailInput.dirty(value: value);
                         });
@@ -163,9 +163,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         focusedBorder: borderColor,
                         focusColor: color,
                         enabledBorder: borderColor,
-                        errorText:
-                            //-- listen the new state of input and take its the value of displayError
-                            _displayErrorEmail(email.error),
+                        errorText: _displayErrorEmail(email.error),
                         errorStyle: TextStyle(fontSize: 15),
                         prefixIcon: Icon(
                           Icons.email,
@@ -178,9 +176,10 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     //-- PASSWORD FIELD
                     TextFormField(
                       keyboardType: TextInputType.text,
+                      obscureText: true,
                       onChanged: (value) {
                         // When the user input the new value to the TextFormField,
-                        // need create a new "dirty" instance that validates the value
+                        // needs to create a new "dirty" instance that validates the value
                         setState(() {
                           password = PasswordInput.dirty(value: value);
                         });
@@ -237,20 +236,31 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
                       UserCredential? user;
 
-                      setState(() => _isLoading = true);
-
                       try {
-                        //
-                        if (name.text.isNotEmpty &&
-                            email.isValid &&
-                            password.isValid) {
-                          //
+                        // 1. We created the new versions in local variables.
+                        final newEmail = EmailInput.dirty(value: email.value);
+                        final newPassword =
+                            PasswordInput.dirty(value: password.value);
+
+                        // 2. We updated the status so that the UI displays any errors (if any).
+                        setState(() {
+                          email = newEmail;
+                          password = newPassword;
+                        });
+
+                        if (newEmail.isValid &&
+                            newPassword.isValid &&
+                            name.text.isNotEmpty) {
+                          setState(() => _isLoading = true);
+
                           user = await FirebaseAuthService(
                                   firebaseAuth: FirebaseAuth.instance)
                               .createUserWithEmailAndPassword(
                                   name: name.text,
                                   email: email.value,
                                   password: password.value);
+
+                          //Navigate
                         }
                       } catch (e) {
                         debugPrint('Error $e');
@@ -263,9 +273,6 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                           );
                         }
                       } finally {
-                        //
-
-                        //
                         if (context.mounted && user != null) {
                           Navigator.of(context).push(MaterialPageRoute<void>(
                               builder: (BuildContext context) =>
