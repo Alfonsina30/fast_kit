@@ -1,9 +1,9 @@
 
-# VALIDATED_FORM
+# FORM VALIDATION
 
 This module provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes for use with custom fields like emails, passwords, etc.
 
-Classes that extend ValidateForm must implement validation logic specific to their data type (e.g., email, password, username, etc.). This allows you to maintain a consistent structure throughout your code.
+Classes that extend FormValidation must implement validation logic specific to their data type (e.g., email, password, username, etc.). This allows you to maintain a consistent structure throughout your code.
 
 Let's look at an example of how the flow works:
 
@@ -17,25 +17,25 @@ Let's look at an example of how the flow works:
 
 5. The result of `_validate` (the error or `null`) is passed to the `super.dirty` constructor of the abstract class.
 
-6. The abstract class `ValidateForm` stores this result in the `_error` property.
+6. The abstract class `FormValidation` stores this result in the `_error` property.
 
-7. From that point on, every time you access `isValid` or `displayError`, the class simply returns its existing state.
+7. From that point on, every time you access `isValid` or `error`, the class simply returns its existing state.
 
 ### **How ​​would you use it in your project?**
 
 # 1. Define the abstract class:
 
-Copy and paste the `ValidateForm` class into a Dart file (`validate_form.dart`).
+Copy and paste the `FormValidation` class into a Dart file (`form_validation.dart`).
 
-# 2. Create a class for each field and override the validator and displayError methods:
+# 2. Create a class for each field and override methods:
 
-For each form field you need, create a new class that extends ValidateForm. For example:
+For each form field you need, create a new class that extends `FormValidation`. For example:
 
-- class Email extends ValidateForm, for email validation.
+- class Email extends FormValidation, for email validation.
 
-- class Password extends ValidateForm, for password validation.
+- class Password extends FormValidation, for password validation.
 
-- class Username extends ValidateForm, for username validation.
+- class Username extends FormValidation, for username validation.
 
 This example shows the implementation for validating the email field.
 
@@ -57,9 +57,12 @@ In a Cubit, Bloc, or simply a StatefulWidget, you use instances of these classes
 **Example using a StatefulWidget**
 
 ````dart
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'email_input.dart';
 import 'password_input.dart';
+import 'utils/error_input.dart';
 
 void main() {
   runApp(const MainApp());
@@ -89,6 +92,30 @@ class _SignInScreenState extends State<SignInScreen> {
   //
   EmailInput email = EmailInput.pure();
   PasswordInput password = PasswordInput.pure();
+
+  String? _displayErrorEmail(ErrorInput? error) {
+    switch (error) {
+      case ErrorInput.empty:
+        return 'The field is required';
+
+      case ErrorInput.invalid:
+        return "Email must contain letters, \nnumbers and character @ ? _ - ! ? , .";
+
+      default:
+        return null;
+    }
+  }
+
+  String? _displayErrorPassword(ErrorInput? error) {
+    switch (error) {
+      case ErrorInput.empty:
+        return 'This field cannot be empty.';
+      case ErrorInput.invalid:
+        return '''Password must contain: 6 character (letters, at least one number or special characters)''';
+      default:
+        return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,9 +173,6 @@ class _SignInScreenState extends State<SignInScreen> {
                 height: 40,
               ),
 
-              ///
-              //
-
               TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 onChanged: (value) {
@@ -160,7 +184,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 decoration: InputDecoration(
                   hintText: 'Email',
                   hintStyle: TextStyle(color: textColor),
-                  errorText: email.displayError,
+                  errorText: _displayErrorEmail(email.error),
                   fillColor: colorInputField,
                   filled: true,
                   focusedErrorBorder: borderColor,
@@ -180,15 +204,12 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(
                 height: 20,
               ),
-
-              ///
-              //
-
               TextFormField(
-                keyboardType: TextInputType.emailAddress,
+                keyboardType: TextInputType.text,
+                obscureText: true,
                 onChanged: (value) {
                   // When the user input the new value to the TextFormField,
-                  // need create a new "dirty" instance that validates the value
+                  // needs to create a new "dirty" instance that validates the value
                   setState(() {
                     password = PasswordInput.dirty(value: value);
                   });
@@ -209,7 +230,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   error: SizedBox(
                     height: 40,
                     child: Text(
-                      password.displayError ?? '',
+                      _displayErrorPassword(password.error) ?? '',
                       style: TextStyle(color: errorColor),
                     ),
                   ),
@@ -233,13 +254,20 @@ class _SignInScreenState extends State<SignInScreen> {
                         textStyle: WidgetStatePropertyAll(TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold))),
                     onPressed: () {
-                      // When the user tap button send, need to recheck the value of the input.
+                      // 1. We created the new versions in local variables.
+                      final newEmail = EmailInput.dirty(value: email.value);
+                      final newPassword =
+                          PasswordInput.dirty(value: password.value);
+
+                      // 2. We updated the status so that the UI displays any errors (if any).
                       setState(() {
-                        email = EmailInput.dirty(value: email.value);
-                        password = PasswordInput.dirty(value: password.value);
+                        email = newEmail;
+                        password = newPassword;
                       });
 
-                      //--- Navigate----
+                      if (newEmail.isValid && newPassword.isValid) {
+                        //Navigate
+                      }
                     },
                     child: Text('Login'),
                   ),

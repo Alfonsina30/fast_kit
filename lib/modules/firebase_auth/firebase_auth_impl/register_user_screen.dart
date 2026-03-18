@@ -3,9 +3,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import '../../../firebase_options.dart';
+import '../../form_validation/form_validation_impl/email_input.dart';
+import '../../form_validation/form_validation_impl/password_input.dart';
+import '../../form_validation/form_validation_impl/utils/error_input.dart';
 import '../firebase_auth_service.dart';
-import 'validate_form/email_input.dart';
-import 'validate_form/password_input.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,6 +43,32 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
   PasswordInput password = PasswordInput.pure();
 
   bool _isLoading = false;
+
+  /// customizable validation and multi-language list. You check the error messages from the UI without touching the core logic.
+
+  String? _displayErrorEmail(ErrorInput? error) {
+    switch (error) {
+      case ErrorInput.empty:
+        return 'The field is required';
+
+      case ErrorInput.invalid:
+        return "Email must be contains letters, \nnumbers and character @ ? _ - ! ? , .";
+
+      default:
+        return null;
+    }
+  }
+
+  String? _displayErrorPassword(ErrorInput? error) {
+    switch (error) {
+      case ErrorInput.empty:
+        return 'This field cannot be empty.';
+      case ErrorInput.invalid:
+        return '''Password must contains: 6 character (letters, at least one number or special characters)''';
+      default:
+        return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +165,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         enabledBorder: borderColor,
                         errorText:
                             //-- listen the new state of input and take its the value of displayError
-                            email.displayError,
+                            _displayErrorEmail(email.error),
                         errorStyle: TextStyle(fontSize: 15),
                         prefixIcon: Icon(
                           Icons.email,
@@ -172,7 +199,7 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                         error: SizedBox(
                           height: 40,
                           child: Text(
-                            password.displayError ?? '',
+                            _displayErrorPassword(password.error) ?? '',
                             style: TextStyle(color: Colors.red),
                           ),
                         ),
