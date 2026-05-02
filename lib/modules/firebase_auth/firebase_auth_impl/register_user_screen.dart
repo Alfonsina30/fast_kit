@@ -1,3 +1,4 @@
+import 'package:fast_kit/modules/firebase_auth/firebase_auth_impl/create_user_with_email_repository_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -234,49 +235,51 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
                     onPressed: () async {
                       if (_isLoading) return;
 
-                      UserCredential? user;
+                      // Hide the keyboard before validating or making the request
+                      FocusScope.of(context).unfocus();
 
-                      try {
-                        // 1. We created the new versions in local variables.
-                        final newEmail = EmailInput.dirty(value: email.value);
-                        final newPassword =
-                            PasswordInput.dirty(value: password.value);
+                      // 1. created the new instance of EmailInput and PasswordInput in local variables.
+                      final newEmail = EmailInput.dirty(value: email.value);
+                      final newPassword =
+                          PasswordInput.dirty(value: password.value);
 
-                        // 2. We updated the status so that the UI displays any errors (if any).
-                        setState(() {
-                          email = newEmail;
-                          password = newPassword;
-                        });
+                      // 2. updated the status so that the UI displays any errors (if any).
+                      setState(() {
+                        email = newEmail;
+                        password = newPassword;
+                      });
 
-                        if (newEmail.isValid &&
-                            newPassword.isValid &&
-                            name.text.isNotEmpty) {
-                          setState(() => _isLoading = true);
+                      if (newEmail.isValid &&
+                          newPassword.isValid &&
+                          name.text.isNotEmpty) {
+                        //
+                        setState(() => _isLoading = true);
 
-                          user = await FirebaseAuthService(
-                                  firebaseAuth: FirebaseAuth.instance)
-                              .createUserWithEmailAndPassword(
-                                  name: name.text,
-                                  email: email.value,
-                                  password: password.value);
+                        //  3. CreateUserWithEmailRepository returns a clean (UserCredential? user, String? error).
+                        //This removes the responsibility for exception handling from the UI, keeping the code clean and free of try-catch blocks in the view.
+                        final repository = CreateUserWithEmailRepositoryImpl(
+                            firebaseAuthService: FirebaseAuthService(
+                                firebaseAuth: FirebaseAuth.instance));
 
-                          //Navigate
-                        }
-                      } catch (e) {
-                        debugPrint('Error $e');
+                        final result = await repository.createUser(
+                            name: name.text,
+                            email: email.value,
+                            password: password.value);
 
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text(
-                                    'Error del canal nativo: ${e.toString()}')),
-                          );
-                        }
-                      } finally {
-                        if (context.mounted && user != null) {
+                        setState(() => _isLoading = false);
+
+                        if (context.mounted && result.user != null) {
+                          //-- navigate if user is not null
                           Navigator.of(context).push(MaterialPageRoute<void>(
                               builder: (BuildContext context) =>
                                   const MyHomePage()));
+                        } else {
+                          //-- show error to UI
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(result.error.toString())),
+                            );
+                          }
                         }
                       }
                     },

@@ -14,7 +14,7 @@ Este kit de *snippets* proporciona soluciones robustas y probadas, listas para i
 
 Clases abstractas (`InputsSign`) y concretas para manejar el estado (**pure/dirty**) y la validación de cualquier entrada (ej. email, password). 
 
-[🔗 Documentación Completa](form_validation/README.md) 
+[🔗 Documentación Completa](./form_validation/README.md) 
 
 
 **2.Autenticación con Firebase** 

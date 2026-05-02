@@ -78,7 +78,11 @@ class FirebaseAuthService {
 
 //! HANDLE EXCEPTION
 class HandleExceptionAuthService {
+
+  //
   final String messageError;
+
+  
   HandleExceptionAuthService(
       {this.messageError = 'An unknow exception occured'});
   //
