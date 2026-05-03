@@ -1,88 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
-
-class FirebaseAuthService {
-  //
-  final FirebaseAuth firebaseAuth;
-
-  FirebaseAuthService({required this.firebaseAuth});
-
-  Future<UserCredential> signInWithEmailAndPassword(
-      {required String email, required String password}) async {
-    //
-    try {
-      final userData = await firebaseAuth.signInWithEmailAndPassword(
-          email: email.trim(), password: password.trim());
-
-      if (userData.user != null) {
-        return userData;
-        //
-      } else {
-        throw HandleExceptionAuthService(
-            messageError: 'user is currently signed out');
-      }
-    } on FirebaseAuthException catch (e) {
-      throw HandleExceptionAuthService.handleFirebase(e);
-    } catch (e) {
-      throw HandleExceptionAuthService(messageError: 'Error not controlled');
-    }
-  }
-
-  Future<UserCredential> createUserWithEmailAndPassword(
-      {required String name,
-      required String email,
-      required String password}) async {
-    //
-    try {
-      final userData = await firebaseAuth.createUserWithEmailAndPassword(
-          email: email.trim(), password: password.trim());
-
-      if (userData.user != null) {
-        return userData;
-        //
-      } else {
-        throw HandleExceptionAuthService(
-            messageError: 'User is currently signed out');
-      }
-    } on FirebaseAuthException catch (e) {
-      throw HandleExceptionAuthService.handleFirebase(e);
-    } catch (e) {
-      throw HandleExceptionAuthService(messageError: e.toString());
-    }
-  }
-
-  Future<void> sendEmailCodeResetPassword({required String email}) async {
-    try {
-      await firebaseAuth.sendPasswordResetEmail(
-        email: email,
-      );
-    } on FirebaseAuthException catch (e) {
-      throw HandleExceptionAuthService.handleFirebase(e);
-    } catch (e) {
-      throw HandleExceptionAuthService();
-    }
-  }
-
-  Future<void> logOut() async {
-    try {
-      await firebaseAuth.signOut();
-      //
-    } on FirebaseAuthException catch (e) {
-      HandleExceptionAuthService.handleFirebase(e);
-    } catch (e) {
-      throw HandleExceptionAuthService();
-    }
-  }
-}
-
-
 
 //! HANDLE EXCEPTION
-class HandleExceptionAuthService {
+import 'package:firebase_auth/firebase_auth.dart';
 
+class HandleExceptionAuthService {
   //
   final String messageError;
 
-  
   HandleExceptionAuthService(
       {this.messageError = 'An unknow exception occured'});
   //

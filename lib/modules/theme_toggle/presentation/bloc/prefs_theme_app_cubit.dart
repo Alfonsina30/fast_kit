@@ -1,7 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'custom_shared_preference.dart';
+
+import '../../theme_toggle_files.dart';
+
+part 'prefs_theme_app_state.dart';
 
 class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
   final CustomSharedPreference preference;
@@ -49,27 +52,5 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
     await preference.deletePreferenceTheme();
 
     emit(state.copyWith(prefsTheme: ThemeMode.system));
-  }
-}
-
-//***** Cubit state
-class PrefsThemeAppState extends Equatable {
-  //
-  final ThemeMode prefsTheme;
-
-  const PrefsThemeAppState({required this.prefsTheme});
-
-//  bool get isDarkTheme => prefsTheme == true;
-
-  PrefsThemeAppState copyWith({ThemeMode? prefsTheme}) {
-    return PrefsThemeAppState(prefsTheme: prefsTheme ?? this.prefsTheme);
-  }
-
-  @override
-  List<Object?> get props => [prefsTheme];
-
-  @override
-  String toString() {
-    return 'Theme: $prefsTheme';
   }
 }

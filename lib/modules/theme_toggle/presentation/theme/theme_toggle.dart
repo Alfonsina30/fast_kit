@@ -15,7 +15,7 @@ class ThemeToggle {
               primary: primaryColor, brightness: Brightness.dark),
           scaffoldBackgroundColor: Colors.black,
           appBarTheme: AppBarTheme(
-              color: Colors.black,
+              backgroundColor: Colors.black,
               iconTheme: IconThemeData(color: Colors.white)),
           textTheme: TextTheme(
             displayLarge: TextStyle(
@@ -41,7 +41,7 @@ class ThemeToggle {
               primary: primaryColor, brightness: Brightness.light),
           scaffoldBackgroundColor: Colors.white,
           appBarTheme: AppBarTheme(
-              color: Colors.white,
+              backgroundColor: Colors.white,
               iconTheme: IconThemeData(color: Colors.black)),
           textTheme: TextTheme(
             displayLarge: TextStyle(

@@ -1,1 +1,0 @@
-enum ErrorInput { empty, invalid }

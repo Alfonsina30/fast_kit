@@ -1,5 +1,5 @@
-import '../form_validation.dart';
-import 'utils/error_input.dart';
+import '../../domain/base/form_validation.dart';
+import '../../domain/enum/error_input.dart';
 
 /// --- Example of a class using the improved abstract class
 class PasswordInput extends FormValidation<String, ErrorInput> {

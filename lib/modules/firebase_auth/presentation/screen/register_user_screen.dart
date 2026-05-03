@@ -1,13 +1,11 @@
-import 'package:fast_kit/modules/firebase_auth/firebase_auth_impl/create_user_with_email_repository_impl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 
-import '../../../firebase_options.dart';
-import '../../form_validation/form_validation_impl/email_input.dart';
-import '../../form_validation/form_validation_impl/password_input.dart';
-import '../../form_validation/form_validation_impl/utils/error_input.dart';
-import '../firebase_auth_service.dart';
+import '../../../../firebase_options.dart';
+import '../../../form_validation/form_validation_files.dart';
+import '../../firebase_auth_files.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -257,8 +255,8 @@ class _RegisterUserScreenState extends State<RegisterUserScreen> {
 
                         //  3. CreateUserWithEmailRepository returns a clean (UserCredential? user, String? error).
                         //This removes the responsibility for exception handling from the UI, keeping the code clean and free of try-catch blocks in the view.
-                        final repository = CreateUserWithEmailRepositoryImpl(
-                            firebaseAuthService: FirebaseAuthService(
+                        final repository = AuthRepositoryImpl(
+                            firebaseAuthService: FirebaseAuthServiceImpl(
                                 firebaseAuth: FirebaseAuth.instance));
 
                         final result = await repository.createUser(

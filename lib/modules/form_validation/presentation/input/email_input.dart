@@ -1,5 +1,5 @@
-import '../form_validation.dart';
-import 'utils/error_input.dart';
+import '../../domain/base/form_validation.dart';
+import '../../domain/enum/error_input.dart';
 
 /// The super.dirty of the EmailInput constructor takes two arguments:
 /// the value (value) and the validation result (_validate(value)). The result of the _validate(value)

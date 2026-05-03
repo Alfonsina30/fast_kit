@@ -1,9 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'email_input.dart';
-import 'password_input.dart';
-import 'utils/error_input.dart';
+import '../../form_validation_files.dart';
 
 void main() {
   runApp(const MainApp());
@@ -195,12 +191,12 @@ class _SignInScreenState extends State<SignInScreen> {
                         textStyle: WidgetStatePropertyAll(TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold))),
                     onPressed: () {
-                      // 1. We created the new versions in local variables.
+                      // 1. create the new versions in local variables.
                       final newEmail = EmailInput.dirty(value: email.value);
                       final newPassword =
                           PasswordInput.dirty(value: password.value);
 
-                      // 2. We updated the status so that the UI displays any errors (if any).
+                      // 2. update the status so that the UI displays any errors (if any).
                       setState(() {
                         email = newEmail;
                         password = newPassword;

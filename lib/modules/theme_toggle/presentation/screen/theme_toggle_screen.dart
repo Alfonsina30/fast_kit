@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../theme_toggle.dart';
-import 'custom_shared_preference.dart';
-import 'prefs_theme_app_cubit.dart';
+
+import '../../theme_toggle_files.dart';
 
 void main() async {
   runApp(MyApp());
