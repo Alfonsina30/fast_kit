@@ -69,7 +69,7 @@ class SnippetsScreen extends StatelessWidget {
               'FORM VALIDATION',
               style: TextStyle(color: colorText),
             ),
-            trailing: Icon(icon, color: colorText),
+            trailing: Icon(icon),
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SignInScreen()));

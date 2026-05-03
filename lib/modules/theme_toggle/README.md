@@ -1,4 +1,3 @@
-
 # THEME TOGGLE
 
 This module provides a robust and reusable structure for changing the application's theme. It uses a class to change the application's visual appearance based on the user's chosen light or dark theme.
@@ -7,14 +6,15 @@ This module provides a robust and reusable structure for changing the applicatio
 
 # 1. Define the **ThemeToggle** class, which will hold all the **ThemeData** settings:
 
-🔗 **[Link](./modules/theme_toggle/theme_toggle.dart)**
+🔗 **[Link](./modules/theme_toggle/presentation/theme/theme_toggle.dart)**
 
 Copy and paste the **ThemeToggle** class into a Dart file (theme_toggle.dart) and import material.dart.
 
 Note: 💡The ThemeToggle class only provides the light or dark theme settings for the following widgets: OutlinedButton.icon, scaffoldBackgroundColor, appBarTheme, textTheme(displayLarge, titleMedium), iconTheme, and floatingActionButtonTheme.
 
 # 2. Create a **CustomSharedPreference** class to save the user's chosen Theme Mode preference on the device.
-🔗 **[Link](./modules/theme_toggle/theme_toggle_impl/custom_shared_preference.dart)**
+
+🔗 **[Link](./modules/theme_toggle/infrastructure/custom_shared_preference.dart)**
 
 For this purpose, we will use the SharedPreference plugin to persistently store simple data, in this case, a boolean value.
 
@@ -28,9 +28,8 @@ shared_preferences: ^2.5.3
 
 # 3. Use the **CustomSharedPreference** class in your business logic: In a Cubit, Bloc, or even a simple StatefulWidget, you use instances of these classes to manage the state of your fields.
 
-
 Here's an example using Cubit, if you want to use this example, Copy and paste the `PrefsThemeAppCubit` class into a Dart file (`prefs_theme_app_cubit.dart`),  
-🔗 **[Link](./modules/theme_toggle/theme_toggle_impl/prefs_theme_app_cubit.dart)**
+🔗 **[Link](./modules/theme_toggle/presentation/bloc/prefs_theme_app_cubit.dart)**
 
 Also you need to add `flutter_bloc` and `equatable` dependencies to your pubspec.yaml file.
 
@@ -47,14 +46,9 @@ dependencies:
 4. **Initial Setup in main.dart**
 
 For the theme to work throughout the app, you need to wrap your MaterialApp with BlocProvider and use BlocBuilder to listen for state changes.
-🔗 **[Link](./modules/theme_toggle/theme_toggle_impl/theme_toggle_screen.dart)**
+🔗 **[Link](./modules/theme_toggle/presentation/screen/theme_toggle_screen.dart)**
 
-```dart
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../theme_toggle.dart';
-import 'custom_shared_preference.dart';
-import 'prefs_theme_app_cubit.dart';
+```dart 
 
 void main() async {
   runApp(MyApp());
@@ -82,7 +76,7 @@ class MyApp extends StatelessWidget {
             ///--- call ThemeToggle class that handler theme mode
             ///-- Use the Cubit State for determine the app theme mode
             theme: ThemeToggle(isDarkMode: false).theme(),
-            
+
             home: ThemeToggleScreen(),
           );
         },
@@ -97,11 +91,9 @@ class MyApp extends StatelessWidget {
 
 Create a widget that, when pressed by the user, change the state of Cubit.
 
-🔗 **[Link](./modules/theme_toggle/theme_toggle_impl/theme_toggle_screen.dart)**
+🔗 **[Link](./modules/theme_toggle/presentation/screen/theme_toggle_screen.dart)**
 
 ```dart
-//
-
 
 class ThemeToggleScreen extends StatelessWidget {
   const ThemeToggleScreen({super.key});
@@ -121,7 +113,6 @@ class ThemeToggleScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          // mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               'Theme Toggle!',

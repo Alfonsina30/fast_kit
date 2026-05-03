@@ -1,6 +1,6 @@
 # FIREBASE_AUTH_SERVICE
 
-This module provides a robust and reusable codice for using Firebase Authentication in your Flutter app, including the implementation for:
+This module provides a robust and reusable code for using Firebase Authentication in your Flutter app, including the implementation for:
 
 - Registration and Login with email and password.
 
@@ -32,13 +32,13 @@ Install Node.js with nvm-windows (Node Version Manager). When you do this, the n
 
 NOTE 💡 Firebase CLI requires Node.js 18.0.0 or later. Some Firebase features may require specific Node.js versions, so check the getting started page for each product for their specific Node.js requirements.
 
-Execute the following command to install Firebase CLI via npm: ```npm install -g firebase-tools```
+Execute the following command to install Firebase CLI via npm: `npm install -g firebase-tools`
 
-This makes the firebase command globally available. The CLI allows you to connect your local folder with the Firebase project in the cloud. Additionally, it helps you configure which services you will use and creates crucial configuration files (```firebase.json``` and ```.firebaserc```).
+This makes the firebase command globally available. The CLI allows you to connect your local folder with the Firebase project in the cloud. Additionally, it helps you configure which services you will use and creates crucial configuration files (`firebase.json` and `.firebaserc`).
 
 Install the FlutterFire CLI:
 
-To install the FlutterFire CLI, execute the following command from any directory: ```dart pub global activate flutterfire_cli```
+To install the FlutterFire CLI, execute the following command from any directory: `dart pub global activate flutterfire_cli`
 
 The FlutterFire CLI is a very useful auxiliary tool created specifically to facilitate the configuration and connection of Firebase with a Flutter application that supports multiple platforms (Android, iOS, Web, etc.).
 
@@ -54,7 +54,7 @@ Downloads and places the native configuration files (GoogleService-Info.plist fo
 
 Access Firebase from your Flutter project directory in the VS Code terminal, using your Google Account, by executing the following command: firebase login
 
-From your Flutter project directory, execute the following command to install the core plugin: ```flutter pub add firebase_core```
+From your Flutter project directory, execute the following command to install the core plugin: `flutter pub add firebase_core`
 
 The firebase_core package is the "core" or the foundation of the Firebase connection.
 
@@ -113,7 +113,7 @@ class MainApp extends StatelessWidget {
 }
 ```
 
-Execute: ```flutter run```
+Execute: `flutter run`
 
 # Step 3: Add Firebase Plugins to the Flutter App
 
@@ -121,13 +121,13 @@ Access Firebase in your Flutter application through the different Firebase Flutt
 
 💡In our case, we are going to add the plugin for authentication.
 
-From your Flutter project directory, run this command: ```flutter pub add firebase_auth```
+From your Flutter project directory, run this command: `flutter pub add firebase_auth`
 
-From your Flutter project directory, run this command: ```flutterfire configure```
+From your Flutter project directory, run this command: `flutterfire configure`
 
 Running this command ensures that your Flutter application's Firebase configuration is up-to-date and, for Crashlytics and Performance Monitoring on Android, it adds the necessary Gradle plugins to your application.
 
-Finally, rebuild your Flutter project: ```flutter run```
+Finally, rebuild your Flutter project: `flutter run`
 
 NOTE 💡: In our project in VSCODE, a file with all the information about the app created in Firebase and connected to our app will be created in lib/firebase_options.dart.
 
@@ -157,9 +157,11 @@ Tap on:
 
 # Step 5: Create File and Implement the Authentication Code in the Flutter App
 
-In your project, create the file `firebase_auth_service.dart`
+In your project, create the file `firebase_auth_service_impl.dart`
 
-# Step 6: Use the class in your business logic: In a Cubit, Bloc, or simply a StatefulWidget, you can use his methods to handle:
+🔗 **[Link](./modules/firebase_auth/infrastructure/service/firebase_auth_service_impl.dart)**
+
+You can use his methods to handle:
 
 - Registration and login with email and password.
 
@@ -167,12 +169,56 @@ In your project, create the file `firebase_auth_service.dart`
 
 - Resetting the user's login password.
 
-**Example using StatefulWidget for a user registration screen, files**:
+# Step 6: Use the class `FirebaseAuthServiceImpl` in your `Repository` that will be use on the business logic: In a `Cubit, Bloc, or simply a StatefulWidget`
 
-🔗 **[Full Example](./modules/firebase_auth/firebase_auth_impl/register_user_screen.dart)**
-🔗 **[Full Example](./modules/firebase_auth/firebase_auth_impl/create_user_with_email_repository_impl.dart)**
+Example using repository
+🔗 **[Link to repository](./modules/firebase_auth/infrastructure/repository/auth_repository_impl.dart)**
 
+```dart
+class AuthRepositoryImpl extends AuthRepository {
+  final FirebaseAuthServiceImpl _firebaseAuthService;
+  AuthRepositoryImpl({
+    FirebaseAuthServiceImpl? firebaseAuthService,
+  }) : _firebaseAuthService = firebaseAuthService ??
+            FirebaseAuthServiceImpl(firebaseAuth: FirebaseAuth.instance);
 
-This example uses the validation utilities centralized in the form_validation module to ensure a to separate architecture 
+  @override
+  Future<User> createUser({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final user = await _firebaseAuthService.createUserWithEmailAndPassword();
+      catch (e) { ...........
+      
+    }
+  }
+}
+}
+``` 
+Example using in your UI screen
 
+``` dart
+
+FilledButton(
+  onPressed: () async {
+
+      final repository = AuthRepositoryImpl(
+          firebaseAuthService: FirebaseAuthServiceImpl(
+              firebaseAuth: FirebaseAuth.instance));
+
+      final result = await repository.createUser(
+          name: name.text,
+          email: email.value,
+          password: password.value);
+  });
+
+``` 
+
+# Full Example using the StatefulWidget for a user registration
+
+This example uses the validation utilities centralized in the form_validation module to ensure a to separate architecture.
+
+🔗 **[Full Example](./modules/firebase_auth/presentation/screen/register_user_screen.dart)**
 

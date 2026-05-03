@@ -1,4 +1,3 @@
-
 # FORM VALIDATION
 
 This module provides a robust and reusable framework for validating form fields in Dart/Flutter. It uses an abstract class to handle state (clean/dirty) and validation, making it easy to create extending classes for use with custom fields like emails, passwords, etc.
@@ -27,11 +26,13 @@ Let's look at an example of how the flow works:
 
 Copy and paste the `FormValidation` class into a Dart file (`form_validation.dart`).
 
-🔗 **[Link](./modules/form_validation/form_validation.dart)**
+🔗 **[Link](./modules/domain/base/form_validation.dart)**
 
 # 2. Create a class for each field and override methods:
 
 For each form field you need, create a new class that extends `FormValidation`. For example:
+
+🔗 **[Link](./modules/form_validation/presentation/input/email_input.dart)**
 
 - class Email extends FormValidation, for email validation.
 
@@ -57,5 +58,4 @@ This example shows the implementation for validating the email field.
 In a Cubit, Bloc, or simply a StatefulWidget, you use instances of these classes to manage the state of your fields.
 
 **Example using a StatefulWidget**
- 🔗 **[Full Example](./modules/form_validation/sign_in_screen.dart)**
- 
+🔗 **[Full Example](./modules/form_validation/presentation/screen/sign_in_screen.dart)**
