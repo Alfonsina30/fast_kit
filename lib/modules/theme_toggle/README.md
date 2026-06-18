@@ -6,7 +6,7 @@ This module provides a robust and reusable structure for changing the applicatio
 
 # 1. Define the **ThemeToggle** class, which will hold all the **ThemeData** settings:
 
-🔗 **[Link](./modules/theme_toggle/presentation/theme/theme_toggle.dart)**
+🔗 **[Link](./presentation/theme/theme_toggle.dart)**
 
 Copy and paste the **ThemeToggle** class into a Dart file (theme_toggle.dart) and import material.dart.
 
@@ -14,7 +14,7 @@ Note: 💡The ThemeToggle class only provides the light or dark theme settings f
 
 # 2. Create a **CustomSharedPreference** class to save the user's chosen Theme Mode preference on the device.
 
-🔗 **[Link](./modules/theme_toggle/infrastructure/custom_shared_preference.dart)**
+🔗 **[Link](./infrastructure/custom_shared_preference.dart)**
 
 For this purpose, we will use the SharedPreference plugin to persistently store simple data, in this case, a boolean value.
 
@@ -29,7 +29,7 @@ shared_preferences: ^2.5.3
 # 3. Use the **CustomSharedPreference** class in your business logic: In a Cubit, Bloc, or even a simple StatefulWidget, you use instances of these classes to manage the state of your fields.
 
 Here's an example using Cubit, if you want to use this example, Copy and paste the `PrefsThemeAppCubit` class into a Dart file (`prefs_theme_app_cubit.dart`),  
-🔗 **[Link](./modules/theme_toggle/presentation/bloc/prefs_theme_app_cubit.dart)**
+🔗 **[Link](./presentation/bloc/prefs_theme_app_cubit.dart)**
 
 Also you need to add `flutter_bloc` and `equatable` dependencies to your pubspec.yaml file.
 
@@ -43,113 +43,17 @@ dependencies:
 
 ```
 
-4. **Initial Setup in main.dart**
+# 4. Initial Setup in main.dart
 
-For the theme to work throughout the app, you need to wrap your MaterialApp with BlocProvider and use BlocBuilder to listen for state changes.
-🔗 **[Link](./modules/theme_toggle/presentation/screen/theme_toggle_screen.dart)**
+For the theme to work throughout the app:
+- Initialize local storage and read the theme before rendering the UI.
+- Pass the initial theme directly to the widget tree.
+- Wrap your MaterialApp with BlocProvider and use BlocBuilder to listen for state changes.
 
-```dart 
+🔗 **[Link](./presentation/screen/theme_toggle_screen.dart)**
 
-void main() async {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PrefsThemeAppCubit(
-        preference: CustomSharedPreference(),
-        // get the user preference theme when the app is open.
-        // and change the CubitState that will be listened from the application pages
-      )..getPrefsTheme(),
-      child: BlocBuilder<PrefsThemeAppCubit, PrefsThemeAppState>(
-        builder: (context, state) {
-          ///-- Use the CubitState for determine the app theme mode
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            themeMode: state.prefsTheme,
-            darkTheme: ThemeToggle(isDarkMode: true).theme(),
-
-            ///--- call ThemeToggle class that handler theme mode
-            ///-- Use the Cubit State for determine the app theme mode
-            theme: ThemeToggle(isDarkMode: false).theme(),
-
-            home: ThemeToggleScreen(),
-          );
-        },
-      ),
-    );
-  }
-}
-
-```
-
-5. **Widget to Change the Application Theme**
+# 5. Widget to Change the Application Theme
 
 Create a widget that, when pressed by the user, change the state of Cubit.
 
-🔗 **[Link](./modules/theme_toggle/presentation/screen/theme_toggle_screen.dart)**
-
-```dart
-
-class ThemeToggleScreen extends StatelessWidget {
-  const ThemeToggleScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    //
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'My App',
-          //! connected with themedata
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text(
-              'Theme Toggle!',
-              //! connected with themedata
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            OutlinedButton.icon(
-              onPressed: () {
-                context.read<PrefsThemeAppCubit>().changetoSystemMode();
-              },
-              label: Text('System mode'),
-              icon: Icon(
-                Icons.settings,
-              ),
-            ),
-            OutlinedButton.icon(
-              onPressed: () {
-                context.read<PrefsThemeAppCubit>().changeToDarkMode();
-              },
-              label: Text('Dark mode'),
-              icon: Icon(Icons.nightlight_round),
-            ),
-            OutlinedButton.icon(
-              onPressed: () {
-                context.read<PrefsThemeAppCubit>().changeToLightMode();
-              },
-              label: Text('Light mode'),
-              icon: Icon(Icons.wb_sunny),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-```
+🔗 **[Link](./presentation/screen/theme_toggle_screen.dart)**

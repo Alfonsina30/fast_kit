@@ -26,13 +26,13 @@ Let's look at an example of how the flow works:
 
 Copy and paste the `FormValidation` class into a Dart file (`form_validation.dart`).
 
-🔗 **[Link](./modules/domain/base/form_validation.dart)**
+🔗 **[Link](./domain/base/form_validation.dart)**
 
 # 2. Create a class for each field and override methods:
 
 For each form field you need, create a new class that extends `FormValidation`. For example:
 
-🔗 **[Link](./modules/form_validation/presentation/input/email_input.dart)**
+🔗 **[Link](./presentation/input/email_input.dart)**
 
 - class Email extends FormValidation, for email validation.
 
@@ -58,4 +58,4 @@ This example shows the implementation for validating the email field.
 In a Cubit, Bloc, or simply a StatefulWidget, you use instances of these classes to manage the state of your fields.
 
 **Example using a StatefulWidget**
-🔗 **[Full Example](./modules/form_validation/presentation/screen/sign_in_screen.dart)**
+🔗 **[Full Example](./presentation/screen/sign_in_screen.dart)**

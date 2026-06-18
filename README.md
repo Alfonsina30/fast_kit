@@ -23,6 +23,11 @@ A `ThemeToggle` class for switching modes and a utility class (`CustomSharedPref
 * **Minimum Flutter SDK:** 3.27
 * **Minimum Dart Version:** 3.6.2
 
+
+## Want to explore the full implementation and see the code in action? 
+You can access the complete project and view the folder structure, repositories, and sample screenshots in our official GitHub repository.
+🔗 **[Go to GitHub](https://github.com/Alfonsina30/fast_flutter_dev_kit_customers.git)**
+
 ## © License and Rights
 *Note: License terms are specified in the LICENSE folder.*
 

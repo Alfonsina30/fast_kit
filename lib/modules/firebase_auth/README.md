@@ -155,70 +155,43 @@ Tap on:
 
 5. Button Save
 
-# Step 5: Create File and Implement the Authentication Code in the Flutter App
 
-In your project, create the file `firebase_auth_service_impl.dart`
 
-🔗 **[Link](./modules/firebase_auth/infrastructure/service/firebase_auth_service_impl.dart)**
+# Step 5: Implementation & Architecture Layers
+This module separates infrastructure, business logic, and UI following Clean Architecture principles.
+
+1. Data Layer (Service Implementation)
+The FirebaseAuthServiceImpl handles direct communication with the Firebase SDK.
+The AuthRepositoryImpl handles direct communication with the FirebaseAuthService.
+
+🔗 **[Link to Firebase service ](./infrastructure/service/firebase_auth_service_impl.dart)**
+🔗 **[Link to Repository](./infrastructure/repository/auth_repository_impl.dart)**
 
 You can use his methods to handle:
 
-- Registration and login with email and password.
+-Registration and login with email and password.
 
-- User logout.
+-User logout.
 
-- Resetting the user's login password.
+-Resetting the user's login password.
 
-# Step 6: Use the class `FirebaseAuthServiceImpl` in your `Repository` that will be use on the business logic: In a `Cubit, Bloc, or simply a StatefulWidget`
+2. Domain/Data Layer (Repository Pattern)
+The Repository abstracts the service, ensuring that our application core remains decoupled from external SDK dependencies.
+🔗 **[Link to Firebase service](./domain/service/auth_service.dart)**
+🔗 **[Link to Repository](./domain/repository/auth_repository.dart)**
 
-Example using repository
-🔗 **[Link to repository](./modules/firebase_auth/infrastructure/repository/auth_repository_impl.dart)**
+3. Presentation Layer (State Management)
+The AuthCubit coordinates user actions (UI) and communicates directly with the Repository to handle state propagation natively.
 
-```dart
-class AuthRepositoryImpl extends AuthRepository {
-  final FirebaseAuthServiceImpl _firebaseAuthService;
-  AuthRepositoryImpl({
-    FirebaseAuthServiceImpl? firebaseAuthService,
-  }) : _firebaseAuthService = firebaseAuthService ??
-            FirebaseAuthServiceImpl(firebaseAuth: FirebaseAuth.instance);
+🔗 **[Link to Cubit](./presentation/bloc/auth_cubit.dart)**
+🔗 **[Link to State Cubit](./presentation/bloc/auth_state.dart)**
 
-  @override
-  Future<User> createUser({
-    required String name,
-    required String email,
-    required String password,
-  }) async {
-    try {
-      final user = await _firebaseAuthService.createUserWithEmailAndPassword();
-      catch (e) { ...........
-      
-    }
-  }
-}
-}
-``` 
-Example using in your UI screen
+# Full Production-Ready Example
+Below is a full example implementing user registration. It utilizes the validation utilities centralized in the form_validation module to keep UI logic thin and decoupled.
 
-``` dart
+🔗 View Full Registration Screen Code
 
-FilledButton(
-  onPressed: () async {
+💡 Architectural Note: In this setup, the UI never instantiates repositories or Firebase services directly. It delegates tasks to the AuthCubit, making the entire presentation layer highly testable and independent of the infrastructure provider.
 
-      final repository = AuthRepositoryImpl(
-          firebaseAuthService: FirebaseAuthServiceImpl(
-              firebaseAuth: FirebaseAuth.instance));
-
-      final result = await repository.createUser(
-          name: name.text,
-          email: email.value,
-          password: password.value);
-  });
-
-``` 
-
-# Full Example using the StatefulWidget for a user registration
-
-This example uses the validation utilities centralized in the form_validation module to ensure a to separate architecture.
-
-🔗 **[Full Example](./modules/firebase_auth/presentation/screen/register_user_screen.dart)**
+🔗 **[Full Example](./presentation/screen/register_user_screen.dart)**
 
