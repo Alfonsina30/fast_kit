@@ -1,14 +1,10 @@
-
 part of 'prefs_theme_app_cubit.dart';
-
 
 class PrefsThemeAppState extends Equatable {
   //
   final ThemeMode prefsTheme;
 
   const PrefsThemeAppState({required this.prefsTheme});
-
-//  bool get isDarkTheme => prefsTheme == true;
 
   PrefsThemeAppState copyWith({ThemeMode? prefsTheme}) {
     return PrefsThemeAppState(prefsTheme: prefsTheme ?? this.prefsTheme);
@@ -19,6 +15,6 @@ class PrefsThemeAppState extends Equatable {
 
   @override
   String toString() {
-    return 'Theme: $prefsTheme';
+    return 'prefsTheme: $prefsTheme';
   }
 }
