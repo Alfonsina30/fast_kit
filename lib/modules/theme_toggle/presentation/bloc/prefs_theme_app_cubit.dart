@@ -31,20 +31,6 @@ class PrefsThemeAppCubit extends Cubit<PrefsThemeAppState> {
     await preference.savePreferenceTheme(themeMode.name);
     emit(state.copyWith(prefsTheme: themeMode));
   }
-/*
-  void changeToDarkMode() async {
-    //-- after change the CubitState save on shared preference the theme mode selected
-    await preference.savePreferenceTheme(ThemeMode.dark.name);
-    emit(state.copyWith(prefsTheme: ThemeMode.dark));
-  }
-
-  void changeToLightMode() async {
-    emit(state.copyWith(prefsTheme: ThemeMode.light));
-
-    //-- after change the CubitState save on shared preference the theme mode selected
-    await preference.savePreferenceTheme(ThemeMode.light.name);
-  }
-  */
 
   Future<void> removePrefsTheme() async {
     //-- can be use if user signOut session app
